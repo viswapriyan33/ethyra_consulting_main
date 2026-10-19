@@ -1,0 +1,369 @@
+/* ==========================================================================
+   DROPPING CARDS STACK — THE GUIDING PHILOSOPHY
+   Brand Palette:
+   - Reference Swatch 1: #002c8b (Deep Royal Navy, R:0 G:44 B:139)
+   - Reference Swatch 2: #009ae0 (Cerulean Cyan, R:0 G:154 B:224)
+   - Pure White: #ffffff
+   ========================================================================== */
+
+:root {
+  --stack-card-w: clamp(280px, min(62vw, 70vh), 660px);
+  --stack-card-ratio: .64;
+  --stack-offset: clamp(14px, 2.2vw, 22px);
+  --stack-radius: 16px;
+  --c-navy: #002c8b;
+  --c-cyan: #009ae0;
+  --c-white: #ffffff;
+  --c-ice: #f0f7ff;
+}
+
+/* Ensure Methodology Section has optimal contrast & aesthetics */
+.methodology-section {
+  position: relative;
+  background: radial-gradient(circle at 50% 20%, #eef7fc 0%, #f8fafc 65%, #f1f5f9 100%) !important;
+  border-top: 1px solid rgba(0, 44, 139, 0.08) !important;
+  border-bottom: 1px solid rgba(0, 44, 139, 0.08) !important;
+  padding: 5rem 1.5rem 6rem !important;
+  overflow: hidden;
+}
+
+.methodology-section .section-head {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.methodology-section .section-kicker {
+  color: var(--c-cyan) !important;
+  font-size: clamp(11px, 1.1vw, 13px) !important;
+  font-weight: 800 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+  display: inline-block;
+  margin-bottom: 0.6rem;
+}
+
+.methodology-section .section-title {
+  color: var(--c-navy) !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: clamp(2.2rem, 3.8vw, 3.2rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -.03em !important;
+  line-height: 1.15 !important;
+  margin-bottom: 0.85rem !important;
+  text-shadow: none !important;
+}
+
+.methodology-section .section-subtitle {
+  color: #475569 !important;
+  font-size: clamp(14px, 1.25vw, 16px) !important;
+  max-width: 620px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.6 !important;
+  font-weight: 400;
+}
+
+/* Stack Wrapper */
+.stack-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 3vh, 28px);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Palette Switcher Pill */
+.stack__theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 44, 139, 0.06);
+  border: 1px solid rgba(0, 44, 139, 0.12);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 44, 139, 0.04);
+}
+
+.stack__theme-btn {
+  border: none;
+  background: transparent;
+  color: #475569;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.stack__theme-btn:hover {
+  color: var(--c-navy);
+}
+
+.stack__theme-btn--active {
+  background: var(--c-navy);
+  color: #ffffff !important;
+  box-shadow: 0 3px 12px rgba(0, 44, 139, 0.25);
+}
+
+/* Deck Container */
+.stack__deck {
+  position: relative;
+  width: var(--stack-card-w);
+  height: calc(var(--stack-card-w) * var(--stack-card-ratio));
+  margin-right: calc(var(--stack-offset) * 2);
+  margin-bottom: calc(var(--stack-offset) * 2);
+  touch-action: none;
+  cursor: grab;
+}
+
+.stack__deck:active {
+  cursor: grabbing;
+}
+
+/* Individual Card */
+.stack__card {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--stack-radius);
+  padding: calc(var(--stack-card-w) * .045);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  will-change: transform;
+  box-shadow: 0 28px 60px -15px rgba(0, 44, 139, 0.2), 0 10px 25px -10px rgba(0, 0, 0, 0.08);
+  color: var(--ink, #111);
+  background: var(--c, #ffffff);
+  transform-origin: 50% 100%;
+  overflow: hidden;
+  border: 1px solid rgba(0, 44, 139, 0.08);
+  transition: box-shadow .3s ease;
+}
+
+/* Subtle Watermark Numeral ("01", "02", "03") from Reference Image */
+.stack__card-watermark {
+  position: absolute;
+  top: calc(var(--stack-card-w) * .02);
+  right: calc(var(--stack-card-w) * .04);
+  font-size: calc(var(--stack-card-w) * .19);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--num-color, rgba(0, 44, 139, 0.08));
+  pointer-events: none;
+  letter-spacing: -.05em;
+  user-select: none;
+  z-index: 1;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Top Section: Photo + Stage Pill + Key Levers */
+.stack__top {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: calc(var(--stack-card-w) * .3) 1fr;
+  column-gap: calc(var(--stack-card-w) * .045);
+  align-items: flex-start;
+}
+
+.stack__img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.42;
+  border-radius: calc(var(--stack-radius) * .65);
+  overflow: hidden;
+  box-shadow: 0 8px 18px -4px rgba(0, 0, 0, 0.25);
+  background: #0f172a;
+}
+
+.stack__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* Stage Pill Badge from Image */
+.stack__stage-badge {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: var(--badge-bg, rgba(0, 154, 224, 0.85));
+  color: var(--badge-color, #ffffff);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: calc(var(--stack-card-w) * .024);
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  letter-spacing: .02em;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Bullet Highlights / Deliverables */
+.stack__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--stack-card-w) * .011);
+  font-size: calc(var(--stack-card-w) * .023);
+  font-weight: 500;
+  line-height: 1.38;
+  color: var(--ink, #111);
+  opacity: .9;
+  padding-top: 2px;
+}
+
+.stack__list li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.stack__list li::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent, var(--c-cyan));
+  flex-shrink: 0;
+}
+
+/* Bottom Section: Title + Guiding Philosophy Body */
+.stack__bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--stack-card-w) * .016);
+}
+
+.stack__title {
+  font-family: 'Outfit', sans-serif;
+  font-size: calc(var(--stack-card-w) * .068);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  color: var(--ink, #111);
+}
+
+.stack__desc {
+  font-size: calc(var(--stack-card-w) * .025);
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--desc-color, rgba(0,0,0,0.72));
+  max-width: 96%;
+}
+
+.stack__desc em {
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* UI Controls Below Deck */
+.stack__ui {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stack__btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 44, 139, 0.15);
+  background: #ffffff;
+  color: var(--c-navy);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 44, 139, 0.08);
+}
+
+.stack__btn--next {
+  background: var(--c-navy);
+  color: #ffffff;
+  border-color: var(--c-navy);
+  box-shadow: 0 6px 18px rgba(0, 44, 139, 0.25);
+}
+
+.stack__btn:hover {
+  transform: scale(1.08);
+}
+
+.stack__btn--next:hover {
+  background: #00226e;
+  box-shadow: 0 8px 22px rgba(0, 44, 139, 0.35);
+}
+
+.stack__btn:active {
+  transform: scale(0.94);
+}
+
+.stack__btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Stage Progress Dots */
+.stack__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stack__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(0, 44, 139, 0.2);
+  transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stack__dot--active {
+  width: 24px;
+  background: var(--c-navy);
+}
+
+.stack__hint {
+  font-size: 11px;
+  color: #64748b;
+  letter-spacing: .03em;
+  margin-top: -6px;
+}
+
+/* Responsive Overrides */
+@media (max-width: 600px) {
+  :root {
+    --stack-card-w: clamp(270px, 92vw, 360px);
+    --stack-card-ratio: .88;
+    --stack-offset: 12px;
+  }
+  .stack__top {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+  }
+  .stack__img-wrap {
+    display: none;
+  }
+  .stack__stage-badge {
+    position: static;
+    display: inline-block;
+    margin-bottom: 6px;
+    width: fit-content;
+  }
+  .stack__card {
+    padding: 1.25rem;
+  }
+}

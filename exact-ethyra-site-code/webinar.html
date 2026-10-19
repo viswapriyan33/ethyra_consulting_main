@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Webinars &amp; Masterclasses – Ethyra Consulting Services</title>
+  <meta name="description" content="Join Ethyra's executive masterclasses and webinars exploring rigorous social programme design, real-time monitoring and evaluation, and social return on investment.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/clean_ethyra_logo.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/landing-page.css?v=8.0">
+  <link rel="stylesheet" href="css/magnetic-button.css">
+  <style>
+    .webinar-hero {
+      max-width: 1360px;
+      margin: 2rem auto 4rem;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .webinar-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: var(--radius-full);
+      background: rgba(0, 154, 224, 0.09);
+      border: 1px solid rgba(0, 154, 224, 0.28);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .webinar-hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 800;
+      color: var(--navy-dark);
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+    .webinar-hero-subtext {
+      max-width: 760px;
+      margin: 0 auto 2.5rem;
+      font-size: 1.15rem;
+      color: var(--slate-600);
+      line-height: 1.7;
+    }
+    .webinar-grid {
+      max-width: 1360px;
+      margin: 0 auto 5rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 2rem;
+    }
+    .webinar-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0, 44, 139, 0.09);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .webinar-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-xl);
+    }
+    .webinar-card-header {
+      padding: 1.75rem 2rem 1.25rem;
+      background: linear-gradient(135deg, rgba(0, 44, 139, 0.03) 0%, rgba(0, 154, 224, 0.08) 100%);
+      border-bottom: 1px solid rgba(0, 44, 139, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .webinar-status-pill {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .status-upcoming {
+      background: rgba(0, 154, 224, 0.15);
+      color: var(--navy);
+      border: 1px solid rgba(0, 154, 224, 0.3);
+    }
+    .status-ondemand {
+      background: rgba(245, 158, 11, 0.15);
+      color: #b45309;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .webinar-card-body {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .webinar-meta-info {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.88rem;
+      color: var(--slate-600);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .webinar-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .webinar-topic-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+    .webinar-desc {
+      font-size: 0.95rem;
+      color: var(--slate-600);
+      line-height: 1.65;
+      margin-bottom: 1.75rem;
+      flex-grow: 1;
+    }
+    .webinar-speaker {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--slate-100);
+      margin-bottom: 1.5rem;
+    }
+    .speaker-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .speaker-name {
+      font-weight: 700;
+      color: var(--slate-900);
+      font-size: 0.92rem;
+    }
+    .speaker-role {
+      font-size: 0.8rem;
+      color: var(--slate-600);
+    }
+    .btn-register {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.8rem 1.5rem;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: var(--radius-full);
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+      border: none;
+      cursor: pointer;
+    }
+    .btn-register:hover {
+      background: var(--navy-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 44, 139, 0.28);
+    }
+    /* Modal styles */
+    .register-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 24, 72, 0.65);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .register-modal-overlay.is-active {
+      display: flex;
+    }
+    .register-modal-box {
+      background: var(--white);
+      max-width: 520px;
+      width: 100%;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-xl);
+      position: relative;
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: var(--slate-100);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--slate-600);
+      transition: background 0.2s ease;
+    }
+    .modal-close-btn:hover {
+      background: var(--slate-200);
+      color: var(--slate-900);
+    }
+    .modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 0.5rem;
+    }
+    .modal-sub {
+      color: var(--slate-600);
+      font-size: 0.95rem;
+      margin-bottom: 1.75rem;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--slate-800);
+      margin-bottom: 0.4rem;
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.92rem;
+      transition: border-color 0.2s ease;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0, 154, 224, 0.15);
+    }
+    .form-success-msg {
+      display: none;
+      padding: 1.5rem;
+      background: #ecfdf5;
+      border: 1px solid #10b981;
+      border-radius: var(--radius-md);
+      color: #065f46;
+      text-align: center;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Blueprint Grid & Glow Canvas -->
+  <div class="page-bg-canvas" aria-hidden="true">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+  </div>
+
+  <!-- ==========================================================================
+       Sticky Header Navbar with Camouflaged Logo
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-logo-link" aria-label="Ethyra Consulting Services Home">
+        <img src="assets/ethyra-official-logo.png?v=8.0" alt="Ethyra — Innovating Social Impact" class="brand-logo-img">
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link vs-magnetic-button vs-magnetic-button--nav">Home</a></li>
+          <li><a href="about-us.html" class="nav-link vs-magnetic-button vs-magnetic-button--nav">About Us</a></li>
+          <li><a href="index.html#services" class="nav-link vs-magnetic-button vs-magnetic-button--nav">Services</a></li>
+          <li><a href="webinar.html" class="nav-link vs-magnetic-button vs-magnetic-button--nav active">Webinar</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="contact-us.html" class="vs-magnetic-button" aria-label="Get in Touch">
+          Get in Touch
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h9M8.5 4 12.5 8l-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="webinar-hero">
+      <div class="webinar-hero-badge">
+        <span class="pulse-indicator"></span>
+        <span>Executive Masterclasses &amp; Webinars</span>
+      </div>
+      <h1 class="webinar-hero-title">Translating Good Intentions<br>into Verifiable Impact</h1>
+      <p class="webinar-hero-subtext">
+        Join Ethyra's live practitioner masterclasses and on-demand analytical sessions exploring programme design, real-time M&amp;E frameworks, and stakeholder-validated social return on investment.
+      </p>
+    </section>
+
+    <!-- Masterclasses Grid -->
+    <section class="webinar-grid">
+      <!-- Session 1: Upcoming -->
+      <article class="webinar-card">
+        <div class="webinar-card-header">
+          <span class="webinar-status-pill status-upcoming">Upcoming Live Masterclass</span>
+          <span style="font-size: 0.85rem; font-weight: 600; color: var(--navy);">Nov 12, 2026</span>
+        </div>
+        <div class="webinar-card-body">
+          <div class="webinar-meta-info">
+            <span class="webinar-meta-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              60 Mins
+            </span>
+            <span class="webinar-meta-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              Live Q&amp;A
+            </span>
+          </div>
+          <h2 class="webinar-topic-title">Rethinking Theory of Change: From Logical Frameworks to Real-World Causality</h2>
+          <p class="webinar-desc">
+            Learn how to design programme logic models that survive contact with the real world, pinpoint root causes before capital is committed, and avoid superficial activity tracking.
+          </p>
+          <div class="webinar-speaker">
+            <div class="speaker-avatar">EA</div>
+            <div>
+              <div class="speaker-name">Ethyra Advisory Council</div>
+              <div class="speaker-role">Senior Practice Leads</div>
+            </div>
+          </div>
+          <button class="btn-register" onclick="openRegisterModal('Rethinking Theory of Change')">
+            <span>Reserve Executive Seat</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Session 2: Upcoming -->
+      <article class="webinar-card">
+        <div class="webinar-card-header">
+          <span class="webinar-status-pill status-upcoming">Upcoming Live Masterclass</span>
+          <span style="font-size: 0.85rem; font-weight: 600; color: var(--navy);">Nov 26, 2026</span>
+        </div>
+        <div class="webinar-card-body">
+          <div class="webinar-meta-info">
+            <span class="webinar-meta-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              75 Mins
+            </span>
+            <span class="webinar-meta-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              Workshop
+            </span>
+          </div>
+          <h2 class="webinar-topic-title">Real-Time Monitoring: Continuous Feedback Loops while there is Time to Act</h2>
+          <p class="webinar-desc">
+            Moving beyond end-of-year audits. Architecting dynamic data loops, field enumerator verifications, and KPI dashboards that guide mid-programme course correction.
+          </p>
+          <div class="webinar-speaker">
+            <div class="speaker-avatar">ME</div>
+            <div>
+              <div class="speaker-name">M&amp;E Systems Team</div>
+              <div class="speaker-role">Evaluation &amp; Attribution Specialists</div>
+            </div>
+          </div>
+          <button class="btn-register" onclick="openRegisterModal('Real-Time Monitoring Loops')">
+            <span>Reserve Executive Seat</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Session 3: On-Demand -->
+      <article class="webinar-card">
+        <div class="webinar-card-header">
+          <span class="webinar-status-pill status-ondemand">On-Demand Briefing</span>
+          <span style="font-size: 0.85rem; font-weight: 600; color: #b45309;">Available Now</span>
+        </div>
+        <div class="webinar-card-body">
+          <div class="webinar-meta-info">
+            <span class="webinar-meta-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              45 Mins
+            </span>
+            <span class="webinar-meta-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+              HD Recording
+            </span>
+          </div>
+          <h2 class="webinar-topic-title">Look Beyond What Was Delivered: The "What Changed?" Assessment Standard</h2>
+          <p class="webinar-desc">
+            A comprehensive breakdown of counterfactual analysis, attribution models, and stakeholder co-creation in CSR impact measurement.
+          </p>
+          <div class="webinar-speaker">
+            <div class="speaker-avatar">IA</div>
+            <div>
+              <div class="speaker-name">Social Impact Council</div>
+              <div class="speaker-role">Strategic Advisory Unit</div>
+            </div>
+          </div>
+          <button class="btn-register" onclick="openRegisterModal('Look Beyond What Was Delivered')">
+            <span>Watch Instant Recording</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <section class="cta-section">
+      <div class="cta-banner-box">
+        <div class="cta-inner">
+          <h2 class="cta-heading">Need a custom workshop for your team?</h2>
+          <p class="cta-subtext">
+            We deliver tailor-made masterclasses on programme design, M&amp;E frameworks, and impact assessment for corporate CSR boards and foundations.
+          </p>
+          <a href="contact-us.html" class="btn-cta-white">
+            <span>Request In-House Masterclass</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Registration Modal -->
+  <div id="registerModal" class="register-modal-overlay" onclick="closeRegisterModal(event)">
+    <div class="register-modal-box" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeRegisterModal()">&times;</button>
+      <h3 class="modal-title">Executive Registration</h3>
+      <p id="modalSessionName" class="modal-sub">Rethinking Theory of Change</p>
+      
+      <form id="webinarForm" onsubmit="handleRegistration(event)">
+        <div class="form-group">
+          <label class="form-label" for="regName">Full Name</label>
+          <input type="text" id="regName" class="form-input" placeholder="e.g. Dr. Jane Smith" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regEmail">Corporate / Professional Email</label>
+          <input type="email" id="regEmail" class="form-input" placeholder="e.g. j.smith@organisation.org" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regOrg">Organisation / Foundation</label>
+          <input type="text" id="regOrg" class="form-input" placeholder="e.g. Global CSR Foundation" required>
+        </div>
+        <button type="submit" class="btn-register" style="margin-top: 1rem;">
+          <span>Confirm Registration</span>
+        </button>
+      </form>
+
+      <div id="formSuccess" class="form-success-msg">
+        Registration confirmed! Access details and calendar invite have been sent to your email.
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand-col">
+        <a href="index.html" class="brand-logo-link">
+          <img src="assets/clean_ethyra_logo.png" alt="Ethyra" class="brand-logo-img">
+        </a>
+        <p>
+          Ethyra Consulting Services helps institutions, CSR foundations, and development organisations design stronger social programmes and assess the real difference their investments make.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="project-design.html">Programme &amp; Project Design</a></li>
+          <li><a href="monitoring-evaluation.html">Monitoring &amp; Evaluation</a></li>
+          <li><a href="social-impact-assessment.html">Social Impact Assessment</a></li>
+          <li><a href="impact-communication.html">Impact Advisory &amp; Dashboards</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="webinar.html">Webinars &amp; Masterclasses</a></li>
+          <li><a href="index.html#methodology">Our Methodology</a></li>
+          <li><a href="index.html#services">Case Outcomes</a></li>
+          <li><a href="contact-us.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Connect</h4>
+        <ul class="footer-links">
+          <li><a href="mailto:contact@ethyra.com">contact@ethyra.com</a></li>
+          <li><a href="variant-1.html">Interactive SVG Engine</a></li>
+          <li><a href="index.html">3D Video Hero Edition</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Ethyra Consulting Services. All rights reserved.</p>
+      <p>Design. Deliver. Demonstrate.</p>
+    </div>
+  </footer>
+
+  <script>
+    function openRegisterModal(sessionTitle) {
+      document.getElementById('modalSessionName').innerText = sessionTitle;
+      document.getElementById('registerModal').classList.add('is-active');
+      document.getElementById('webinarForm').style.display = 'block';
+      document.getElementById('formSuccess').style.display = 'none';
+    }
+
+    function closeRegisterModal(e) {
+      if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close-btn')) return;
+      document.getElementById('registerModal').classList.remove('is-active');
+    }
+
+    function handleRegistration(e) {
+      e.preventDefault();
+      document.getElementById('webinarForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+      setTimeout(() => {
+        closeRegisterModal();
+      }, 3000);
+    }
+  </script>
+  <script src="js/magnetic-button.js"></script>
+</body>
+</html>

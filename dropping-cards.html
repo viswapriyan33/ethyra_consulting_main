@@ -1,0 +1,1014 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Guiding Philosophy — Dropping Cards Stack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ CUSTOMISE (Exact Reference Palette) ============ */
+  :root{
+    --bg: #070b16;                          /* Deep navy background */
+    --card-w: clamp(280px, min(62vw, 72vh), 660px);
+    --card-ratio: .64;                      /* height = width × ratio */
+    --offset: clamp(12px, 2.2vw, 24px);     /* how far each card behind peeks out */
+    --radius: 14px;
+    
+    /* Reference Color Swatches */
+    --c-navy: #002c8b;                      /* Reference Swatch 1 (R:0 G:44 B:139) */
+    --c-cyan: #009ae0;                      /* Reference Swatch 2 (R:0 G:154 B:224) */
+    --c-white: #ffffff;                     /* Reference Card Background */
+    --c-ice: #f0f7ff;
+  }
+  /* ============================================================== */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background: radial-gradient(circle at 50% 25%, #0f1934 0%, var(--bg) 70%);
+    color: #fff;
+    font-family: "Plus Jakarta Sans", "Space Grotesk", system-ui, sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .stack{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: clamp(32px, 5vh, 60px) 20px;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .stack__inner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(20px, 3.6vh, 36px);
+    max-width: 900px;
+    width: 100%;
+  }
+
+  /* Header Section from Image 1 */
+  .stack__header{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 0 16px;
+  }
+  .stack__eyebrow{
+    color: var(--c-cyan);
+    font-size: clamp(11px, 1.1vw, 13px);
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .stack__heading{
+    font-size: clamp(28px, 4.4vw, 46px);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1.12;
+    background: linear-gradient(180deg, #ffffff 30%, rgba(255,255,255,0.78) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stack__subheading{
+    color: rgba(255, 255, 255, 0.65);
+    font-size: clamp(13px, 1.25vw, 15px);
+    max-width: 580px;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+
+  /* Palette Switcher Pill */
+  .stack__theme-toggle{
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    margin-top: -4px;
+  }
+  .stack__theme-btn{
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    padding: 5px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all .2s;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .stack__theme-btn--active{
+    background: var(--c-cyan);
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 154, 224, 0.4);
+  }
+
+  /* Deck Container */
+  .stack__deck{
+    position: relative;
+    width: var(--card-w);
+    height: calc(var(--card-w) * var(--card-ratio));
+    margin-right: calc(var(--offset) * 2);
+    margin-bottom: calc(var(--offset) * 2);
+    touch-action: none;
+    cursor: grab;
+  }
+  .stack__deck:active{cursor: grabbing}
+
+  /* Individual Card */
+  .stack__card{
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    padding: calc(var(--card-w) * .045);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    will-change: transform;
+    box-shadow: 0 35px 70px -25px rgba(0, 0, 0, 0.65), 0 10px 25px -10px rgba(0, 44, 139, 0.35);
+    color: var(--ink, #111);
+    background: var(--c, #ffffff);
+    transform-origin: 50% 100%;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* Subtle Watermark Numeral ("01", "02", "03") from Image 1 */
+  .stack__card-watermark{
+    position: absolute;
+    top: calc(var(--card-w) * .02);
+    right: calc(var(--card-w) * .04);
+    font-size: calc(var(--card-w) * .18);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--num-color, rgba(0, 44, 139, 0.08));
+    pointer-events: none;
+    letter-spacing: -.05em;
+    user-select: none;
+    z-index: 1;
+  }
+
+  /* Top Section: Photo + Stage Pill + Key Levers */
+  .stack__top{
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: calc(var(--card-w) * .3) 1fr;
+    column-gap: calc(var(--card-w) * .045);
+    align-items: flex-start;
+  }
+
+  .stack__img-wrap{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.45;
+    border-radius: calc(var(--radius) * .65);
+    overflow: hidden;
+    box-shadow: 0 8px 18px -4px rgba(0, 0, 0, 0.25);
+  }
+  .stack__img-wrap img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+
+  /* Stage Pill Badge from Image 1 */
+  .stack__stage-badge{
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    background: var(--badge-bg, rgba(0, 154, 224, 0.85));
+    color: var(--badge-color, #ffffff);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: calc(var(--card-w) * .023);
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    letter-spacing: .02em;
+    line-height: 1;
+  }
+
+  /* Bullet Highlights / Deliverables */
+  .stack__list{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--card-w) * .011);
+    font-size: calc(var(--card-w) * .023);
+    font-weight: 500;
+    line-height: 1.38;
+    color: var(--ink, #111);
+    opacity: .88;
+    padding-top: 2px;
+  }
+  .stack__list li{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stack__list li::before{
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent, var(--c-cyan));
+    flex-shrink: 0;
+  }
+
+  /* Bottom Section: Title + Guiding Philosophy Body */
+  .stack__bottom{
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--card-w) * .016);
+  }
+
+  .stack__title{
+    font-size: calc(var(--card-w) * .068);
+    font-weight: 700;
+    letter-spacing: -.035em;
+    line-height: 1.05;
+    color: var(--ink, #111);
+  }
+
+  .stack__desc{
+    font-size: calc(var(--card-w) * .025);
+    line-height: 1.48;
+    font-weight: 400;
+    color: var(--desc-color, rgba(0,0,0,0.72));
+    max-width: 95%;
+  }
+
+  /* UI Controls Below Deck */
+  .stack__ui{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .stack__btn{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 0;
+    background: rgba(255, 255, 255, .12);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background .2s, transform .2s, box-shadow .2s;
+  }
+  .stack__btn--next{
+    background: #ffffff;
+    color: var(--c-navy);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+  .stack__btn:hover{
+    transform: scale(1.1);
+  }
+  .stack__btn:active{
+    transform: scale(0.95);
+  }
+  .stack__btn svg{
+    width: 14px;
+    height: 14px;
+  }
+
+  .stack__hint{
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: .04em;
+    margin-top: -8px;
+  }
+</style>
+</head>
+<body>
+<section class="stack" data-autoplay="2.4">
+  <div class="stack__inner">
+    
+    <!-- Header from Reference Image 1 -->
+    <header class="stack__header">
+      <span class="stack__eyebrow">THE GUIDING PHILOSOPHY</span>
+      <h1 class="stack__heading">Design. Deliver. Demonstrate.</h1>
+      <p class="stack__subheading">Moving beyond vanity metrics to create resilient social value backed by verifiable proof.</p>
+      
+      <!-- Palette Mode Switcher -->
+      <div class="stack__theme-toggle" role="group" aria-label="Palette selection">
+        <button class="stack__theme-btn stack__theme-btn--active" id="themeColorBlock" type="button">Brand Color-Block</button>
+        <button class="stack__theme-btn" id="themeImageCards" type="button">Pristine White Deck</button>
+      </div>
+    </header>
+
+    <!-- Cards Deck (3 Cards for the 3 Stages) -->
+    <div class="stack__deck">
+      
+      <!-- Card 1: Stage 1 (Deep Navy #002c8b from Swatch 1) -->
+      <article class="stack__card" id="card-1"
+               style="--c:#002c8b; --ink:#ffffff; --accent:#009ae0; --badge-bg:rgba(0,154,224,0.3); --badge-color:#38bdf8; --num-color:rgba(255,255,255,0.08); --desc-color:rgba(255,255,255,0.85)">
+        <span class="stack__card-watermark">01</span>
+        <div class="stack__top">
+          <div class="stack__img-wrap">
+            <img src="img/drop_35.jpg" alt="Design with Precision" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1581291518655-9523c932deb4?auto=format&fit=crop&w=600&q=80';">
+            <span class="stack__stage-badge">Stage 1</span>
+          </div>
+          <ul class="stack__list">
+            <li>Systemic problem formulation</li>
+            <li>True causal lever mapping</li>
+            <li>Theory of change alignment</li>
+            <li>Pre-capital de-risking</li>
+          </ul>
+        </div>
+        <div class="stack__bottom">
+          <h3 class="stack__title">Design with Precision.</h3>
+          <p class="stack__desc">We anchor every project in systemic problem formulation, identifying true causal levers rather than superficial symptoms before capital is committed.</p>
+        </div>
+      </article>
+
+      <!-- Card 2: Stage 2 (Vibrant Cyan #009ae0 from Swatch 2) -->
+      <article class="stack__card" id="card-2"
+               style="--c:#009ae0; --ink:#ffffff; --accent:#002c8b; --badge-bg:rgba(0,44,139,0.32); --badge-color:#ffffff; --num-color:rgba(255,255,255,0.18); --desc-color:rgba(255,255,255,0.92)">
+        <span class="stack__card-watermark">02</span>
+        <div class="stack__top">
+          <div class="stack__img-wrap">
+            <img src="img/drop_34.jpg" alt="Deliver with Agility" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80';">
+            <span class="stack__stage-badge">Stage 2</span>
+          </div>
+          <ul class="stack__list">
+            <li>Continuous monitoring systems</li>
+            <li>Early-warning threshold alerts</li>
+            <li>Agile field team pivots</li>
+            <li>Mid-flight intervention tuning</li>
+          </ul>
+        </div>
+        <div class="stack__bottom">
+          <h3 class="stack__title">Deliver with Agility.</h3>
+          <p class="stack__desc">Continuous monitoring systems provide early-warning signals, enabling field teams to pivot dynamically and optimize interventions mid-flight.</p>
+        </div>
+      </article>
+
+      <!-- Card 3: Stage 3 (Crisp White Card from Reference Image 1 with Navy & Cyan Accents) -->
+      <article class="stack__card" id="card-3"
+               style="--c:#ffffff; --ink:#002c8b; --accent:#009ae0; --badge-bg:#e0f2fe; --badge-color:#009ae0; --num-color:rgba(0,44,139,0.08); --desc-color:#475569">
+        <span class="stack__card-watermark">03</span>
+        <div class="stack__top">
+          <div class="stack__img-wrap">
+            <img src="img/drop_73.jpg" alt="Demonstrate with Rigour" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80';">
+            <span class="stack__stage-badge">Stage 3</span>
+          </div>
+          <ul class="stack__list">
+            <li>Counterfactual benchmarking</li>
+            <li>Rigorous attribution models</li>
+            <li>Verifiable proof points</li>
+            <li>Audit-grade social reporting</li>
+          </ul>
+        </div>
+        <div class="stack__bottom">
+          <h3 class="stack__title">Demonstrate with Rigour.</h3>
+          <p class="stack__desc">We answer the ultimate question — <em>what changed?</em> — with rigorous attribution analysis, clear counterfactuals, and transparent data proof.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- UI controls: Prev (ghost), Next (white) -->
+    <div class="stack__ui">
+      <button class="stack__btn stack__btn--prev" aria-label="Previous card">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 3L5 8l5 5"/>
+        </svg>
+      </button>
+      <button class="stack__btn stack__btn--next" aria-label="Next card">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 3l5 5-5 5"/>
+        </svg>
+      </button>
+    </div>
+
+    <span class="stack__hint">Drag card down or use arrow keys to navigate</span>
+  </div>
+</section>
+
+<!-- GSAP 3.12.5 from jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  const stack = document.querySelector('.stack');
+  const deck = document.querySelector('.stack__deck');
+  const cards = Array.from(deck.querySelectorAll('.stack__card'));
+  const prevBtn = document.querySelector('.stack__btn--prev');
+  const nextBtn = document.querySelector('.stack__btn--next');
+  const themeColorBlockBtn = document.getElementById('themeColorBlock');
+  const themeImageCardsBtn = document.getElementById('themeImageCards');
+
+  if (!cards.length) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const autoplayIntervalSec = parseFloat(stack.dataset.autoplay) || 2.4;
+  
+  let isBusy = false;
+  let autoplayTimer = null;
+  let isHovered = false;
+
+  // Deck ordering array: [0 = front, 1 = middle, 2 = back]
+  let deckOrder = [...cards];
+
+  function getOffset() {
+    const raw = getComputedStyle(document.documentElement).getPropertyValue('--offset');
+    const val = parseFloat(raw);
+    return isNaN(val) ? 22 : val;
+  }
+
+  function getSlotProps(slotIndex) {
+    const offset = getOffset();
+    return {
+      x: slotIndex * offset,
+      y: slotIndex * offset,
+      scale: 1 - slotIndex * 0.015,
+      rotation: 0
+    };
+  }
+
+  function updateZIndices() {
+    deckOrder.forEach((card, idx) => {
+      card.style.zIndex = (cards.length - idx) * 10;
+    });
+  }
+
+  // --- Intro Animation ---
+  function runIntro() {
+    isBusy = true;
+    updateZIndices();
+
+    if (prefersReducedMotion.matches) {
+      deckOrder.forEach((card, idx) => {
+        const props = getSlotProps(idx);
+        gsap.set(card, {
+          x: props.x,
+          y: props.y,
+          scale: props.scale,
+          rotation: 0,
+          opacity: 1
+        });
+      });
+      isBusy = false;
+      startAutoplay();
+      return;
+    }
+
+    const cardHeight = deck.offsetHeight || 300;
+    const initialY = cardHeight * 1.5;
+
+    // Position cards initially below viewport with alternating ±6° tilt
+    deckOrder.forEach((card, idx) => {
+      const tilt = (idx % 2 === 0) ? -6 : 6;
+      const slotProps = getSlotProps(idx);
+      gsap.set(card, {
+        x: slotProps.x,
+        y: initialY,
+        scale: slotProps.scale,
+        rotation: tilt,
+        opacity: 1
+      });
+    });
+
+    // Rise from below, back card first (index deckOrder.length - 1 down to 0)
+    const introTl = gsap.timeline({
+      delay: 0.15,
+      onComplete: () => {
+        isBusy = false;
+        startAutoplay();
+      }
+    });
+
+    const reversed = [...deckOrder].reverse();
+    reversed.forEach((card, rIdx) => {
+      const slotIdx = deckOrder.length - 1 - rIdx;
+      const targetProps = getSlotProps(slotIdx);
+
+      introTl.to(card, {
+        x: targetProps.x,
+        y: targetProps.y,
+        scale: targetProps.scale,
+        rotation: 0,
+        duration: 0.9,
+        ease: 'expo.out'
+      }, rIdx * 0.12);
+    });
+
+    // Reveal front card's title & content
+    const frontCard = deckOrder[0];
+    const title = frontCard.querySelector('.stack__title');
+    const desc = frontCard.querySelector('.stack__desc');
+    const listItems = frontCard.querySelectorAll('.stack__list li');
+
+    introTl.fromTo(title, {
+      y: 24,
+      opacity: 0
+    }, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.out'
+    }, 0.55);
+
+    introTl.fromTo([desc, ...listItems], {
+      x: 18,
+      opacity: 0
+    }, {
+      x: 0,
+      opacity: (i) => i === 0 ? 0.9 : 0.88,
+      duration: 0.5,
+      stagger: 0.035,
+      ease: 'power2.out'
+    }, 0.6);
+  }
+
+  // --- Next Motion ---
+  function goNext(fromDragState = null) {
+    if (isBusy) return;
+    isBusy = true;
+    resetAutoplayTimer();
+
+    const frontCard = deckOrder[0];
+    const otherCards = deckOrder.slice(1);
+    const newFrontCard = otherCards[0];
+    const cardHeight = deck.offsetHeight || 300;
+    const offset = getOffset();
+
+    if (prefersReducedMotion.matches) {
+      gsap.to(frontCard, {
+        opacity: 0,
+        duration: 0.25,
+        onComplete: () => {
+          deckOrder.push(deckOrder.shift());
+          updateZIndices();
+          deckOrder.forEach((c, i) => {
+            const p = getSlotProps(i);
+            gsap.set(c, { x: p.x, y: p.y, scale: p.scale, opacity: 1 });
+          });
+          isBusy = false;
+        }
+      });
+      return;
+    }
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        deckOrder.push(deckOrder.shift());
+        updateZIndices();
+        isBusy = false;
+      }
+    });
+
+    // 1. Front card drops straight down out of stack:
+    // y +125% of card height, x -2 offsets, rotate -7°, over 0.55s with power3.in
+    const dropTargetY = cardHeight * 1.25;
+    const dropTargetX = -2 * offset;
+
+    if (fromDragState) {
+      tl.to(frontCard, {
+        x: dropTargetX,
+        y: dropTargetY,
+        rotation: -7,
+        duration: Math.max(0.28, 0.55 * (1 - fromDragState.progress)),
+        ease: 'power3.in'
+      }, 0);
+    } else {
+      tl.to(frontCard, {
+        x: dropTargetX,
+        y: dropTargetY,
+        rotation: -7,
+        duration: 0.55,
+        ease: 'power3.in'
+      }, 0);
+    }
+
+    // 2. From 0.18s, other cards step forward one slot (0.8s expo.out, 0.05s stagger)
+    otherCards.forEach((card, idx) => {
+      const targetSlot = idx;
+      const targetProps = getSlotProps(targetSlot);
+
+      tl.to(card, {
+        x: targetProps.x,
+        y: targetProps.y,
+        scale: targetProps.scale,
+        rotation: 0,
+        duration: 0.8,
+        ease: 'expo.out'
+      }, 0.18 + idx * 0.05);
+
+      tl.call(() => {
+        card.style.zIndex = (cards.length - targetSlot) * 10;
+      }, null, 0.18 + idx * 0.05);
+    });
+
+    // 3. At 0.55s the dropped card goes to lowest z-index and rises into the last slot (0.9s expo.out)
+    const lastSlot = cards.length - 1;
+    const lastSlotProps = getSlotProps(lastSlot);
+
+    tl.call(() => {
+      frontCard.style.zIndex = 1;
+    }, null, 0.55);
+
+    tl.fromTo(frontCard, {
+      x: lastSlotProps.x,
+      y: cardHeight * 1.25,
+      scale: lastSlotProps.scale,
+      rotation: 5
+    }, {
+      x: lastSlotProps.x,
+      y: lastSlotProps.y,
+      scale: lastSlotProps.scale,
+      rotation: 0,
+      duration: 0.9,
+      ease: 'expo.out'
+    }, 0.55);
+
+    // 4. The new front card's title rises in and its list items slide in from the right
+    const newTitle = newFrontCard.querySelector('.stack__title');
+    const newDesc = newFrontCard.querySelector('.stack__desc');
+    const newListItems = newFrontCard.querySelectorAll('.stack__list li');
+
+    tl.fromTo(newTitle, {
+      y: 22,
+      opacity: 0
+    }, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.out'
+    }, 0.35);
+
+    tl.fromTo([newDesc, ...newListItems], {
+      x: 18,
+      opacity: 0
+    }, {
+      x: 0,
+      opacity: (i) => i === 0 ? 0.9 : 0.88,
+      duration: 0.48,
+      stagger: 0.035,
+      ease: 'power2.out'
+    }, 0.38);
+  }
+
+  // --- Prev Motion ---
+  function goPrev() {
+    if (isBusy) return;
+    isBusy = true;
+    resetAutoplayTimer();
+
+    const backCard = deckOrder[deckOrder.length - 1];
+    const otherCards = deckOrder.slice(0, deckOrder.length - 1);
+    const cardHeight = deck.offsetHeight || 300;
+    const offset = getOffset();
+
+    if (prefersReducedMotion.matches) {
+      gsap.to(backCard, {
+        opacity: 0,
+        duration: 0.25,
+        onComplete: () => {
+          deckOrder.unshift(deckOrder.pop());
+          updateZIndices();
+          deckOrder.forEach((c, i) => {
+            const p = getSlotProps(i);
+            gsap.set(c, { x: p.x, y: p.y, scale: p.scale, opacity: 1 });
+          });
+          isBusy = false;
+        }
+      });
+      return;
+    }
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        deckOrder.unshift(deckOrder.pop());
+        updateZIndices();
+        isBusy = false;
+      }
+    });
+
+    // 1. Back card drops down out of deck
+    tl.to(backCard, {
+      x: -2 * offset,
+      y: cardHeight * 1.25,
+      rotation: -7,
+      duration: 0.45,
+      ease: 'power3.in'
+    }, 0);
+
+    // 2. Other cards step back one slot
+    otherCards.forEach((card, idx) => {
+      const targetSlot = idx + 1;
+      const targetProps = getSlotProps(targetSlot);
+
+      tl.to(card, {
+        x: targetProps.x,
+        y: targetProps.y,
+        scale: targetProps.scale,
+        rotation: 0,
+        duration: 0.8,
+        ease: 'expo.out'
+      }, 0.15 + (otherCards.length - 1 - idx) * 0.04);
+
+      tl.call(() => {
+        card.style.zIndex = (cards.length - targetSlot) * 10;
+      }, null, 0.15 + idx * 0.04);
+    });
+
+    // 3. At 0.45s, back card jumps to top z-order and rises into front slot (slot 0), tilted -5° on entrance
+    tl.call(() => {
+      backCard.style.zIndex = (cards.length + 5) * 10;
+    }, null, 0.45);
+
+    const frontSlotProps = getSlotProps(0);
+
+    tl.fromTo(backCard, {
+      x: 0,
+      y: cardHeight * 1.25,
+      scale: 1,
+      rotation: -5
+    }, {
+      x: frontSlotProps.x,
+      y: frontSlotProps.y,
+      scale: frontSlotProps.scale,
+      rotation: 0,
+      duration: 0.9,
+      ease: 'expo.out'
+    }, 0.45);
+
+    // 4. Content entrance
+    const title = backCard.querySelector('.stack__title');
+    const desc = backCard.querySelector('.stack__desc');
+    const listItems = backCard.querySelectorAll('.stack__list li');
+
+    tl.fromTo(title, {
+      y: 22,
+      opacity: 0
+    }, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.out'
+    }, 0.6);
+
+    tl.fromTo([desc, ...listItems], {
+      x: 18,
+      opacity: 0
+    }, {
+      x: 0,
+      opacity: (i) => i === 0 ? 0.9 : 0.88,
+      duration: 0.48,
+      stagger: 0.035,
+      ease: 'power2.out'
+    }, 0.63);
+  }
+
+  // --- Drag & Throw Interaction ---
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+  let lastY = 0;
+  let lastTime = 0;
+  let velocityY = 0;
+  let activePointerId = null;
+
+  deck.addEventListener('pointerdown', (e) => {
+    if (isBusy) return;
+    isDragging = true;
+    activePointerId = e.pointerId;
+    startX = e.clientX;
+    startY = e.clientY;
+    lastY = e.clientY;
+    lastTime = performance.now();
+    velocityY = 0;
+
+    try {
+      deck.setPointerCapture(e.pointerId);
+    } catch (_) {}
+
+    pauseAutoplay();
+  });
+
+  deck.addEventListener('pointermove', (e) => {
+    if (!isDragging || e.pointerId !== activePointerId || isBusy) return;
+
+    const now = performance.now();
+    const dt = now - lastTime;
+    if (dt > 0) {
+      velocityY = (e.clientY - lastY) / dt;
+    }
+    lastY = e.clientY;
+    lastTime = now;
+
+    let dy = e.clientY - startY;
+    let dx = e.clientX - startX;
+
+    const cardHeight = deck.offsetHeight || 300;
+    const offset = getOffset();
+    const frontCard = deckOrder[0];
+
+    // Rubber band resistance when dragging upwards
+    if (dy < 0) {
+      dy = dy * 0.22;
+    }
+
+    const tilt = -(dy / cardHeight) * 7;
+    const lateralShift = dx * 0.35 - (dy / cardHeight) * (offset * 1.6);
+
+    gsap.set(frontCard, {
+      x: lateralShift,
+      y: dy,
+      rotation: tilt
+    });
+  });
+
+  function handlePointerEnd(e) {
+    if (!isDragging || e.pointerId !== activePointerId) return;
+    isDragging = false;
+
+    try {
+      deck.releasePointerCapture(e.pointerId);
+    } catch (_) {}
+
+    if (isBusy) return;
+
+    const totalDy = e.clientY - startY;
+    const cardHeight = deck.offsetHeight || 300;
+    const dropThreshold = cardHeight * 0.25;
+    const frontCard = deckOrder[0];
+
+    if (totalDy > dropThreshold || (totalDy > 25 && velocityY > 0.45)) {
+      const progress = Math.min(0.65, Math.max(0.15, totalDy / cardHeight));
+      goNext({ progress });
+    } else {
+      isBusy = true;
+      gsap.to(frontCard, {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        scale: 1,
+        duration: 0.65,
+        ease: 'elastic.out(1, 0.65)',
+        onComplete: () => {
+          isBusy = false;
+          if (!isHovered) startAutoplay();
+        }
+      });
+    }
+  }
+
+  deck.addEventListener('pointerup', handlePointerEnd);
+  deck.addEventListener('pointercancel', handlePointerEnd);
+
+  // --- Autoplay with Hover Pause ---
+  function startAutoplay() {
+    clearTimeout(autoplayTimer);
+    if (isHovered || prefersReducedMotion.matches) return;
+    autoplayTimer = setTimeout(() => {
+      if (!isHovered && !isBusy && !isDragging) {
+        goNext();
+      }
+      startAutoplay();
+    }, autoplayIntervalSec * 1000);
+  }
+
+  function pauseAutoplay() {
+    clearTimeout(autoplayTimer);
+  }
+
+  function resetAutoplayTimer() {
+    clearTimeout(autoplayTimer);
+    if (!isHovered) {
+      startAutoplay();
+    }
+  }
+
+  stack.addEventListener('mouseenter', () => {
+    isHovered = true;
+    pauseAutoplay();
+  });
+
+  stack.addEventListener('mouseleave', () => {
+    isHovered = false;
+    startAutoplay();
+  });
+
+  // --- Controls ---
+  nextBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    goNext();
+  });
+
+  prevBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    goPrev();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      goNext();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      goPrev();
+    }
+  });
+
+  // --- Theme Palette Toggle ---
+  const card1 = document.getElementById('card-1');
+  const card2 = document.getElementById('card-2');
+  const card3 = document.getElementById('card-3');
+
+  function setPaletteMode(mode) {
+    if (mode === 'colorblock') {
+      themeColorBlockBtn.classList.add('stack__theme-btn--active');
+      themeImageCardsBtn.classList.remove('stack__theme-btn--active');
+
+      card1.style.setProperty('--c', '#002c8b');
+      card1.style.setProperty('--ink', '#ffffff');
+      card1.style.setProperty('--badge-bg', 'rgba(0,154,224,0.3)');
+      card1.style.setProperty('--badge-color', '#38bdf8');
+      card1.style.setProperty('--num-color', 'rgba(255,255,255,0.08)');
+      card1.style.setProperty('--desc-color', 'rgba(255,255,255,0.85)');
+
+      card2.style.setProperty('--c', '#009ae0');
+      card2.style.setProperty('--ink', '#ffffff');
+      card2.style.setProperty('--badge-bg', 'rgba(0,44,139,0.32)');
+      card2.style.setProperty('--badge-color', '#ffffff');
+      card2.style.setProperty('--num-color', 'rgba(255,255,255,0.18)');
+      card2.style.setProperty('--desc-color', 'rgba(255,255,255,0.92)');
+
+      card3.style.setProperty('--c', '#ffffff');
+      card3.style.setProperty('--ink', '#002c8b');
+      card3.style.setProperty('--badge-bg', '#e0f2fe');
+      card3.style.setProperty('--badge-color', '#009ae0');
+      card3.style.setProperty('--num-color', 'rgba(0,44,139,0.08)');
+      card3.style.setProperty('--desc-color', '#475569');
+    } else {
+      // Pristine White Deck mode from Image 1
+      themeImageCardsBtn.classList.add('stack__theme-btn--active');
+      themeColorBlockBtn.classList.remove('stack__theme-btn--active');
+
+      [card1, card2, card3].forEach(c => {
+        c.style.setProperty('--c', '#ffffff');
+        c.style.setProperty('--ink', '#002c8b');
+        c.style.setProperty('--badge-bg', '#e0f2fe');
+        c.style.setProperty('--badge-color', '#009ae0');
+        c.style.setProperty('--num-color', 'rgba(0,44,139,0.08)');
+        c.style.setProperty('--desc-color', '#475569');
+      });
+    }
+  }
+
+  themeColorBlockBtn.addEventListener('click', () => setPaletteMode('colorblock'));
+  themeImageCardsBtn.addEventListener('click', () => setPaletteMode('white'));
+
+  // --- Resize handling ---
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      if (isBusy || isDragging) return;
+      deckOrder.forEach((card, idx) => {
+        const props = getSlotProps(idx);
+        gsap.set(card, {
+          x: props.x,
+          y: props.y,
+          scale: props.scale,
+          rotation: 0
+        });
+      });
+    }, 150);
+  });
+
+  // Run intro
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runIntro);
+  } else {
+    runIntro();
+  }
+
+})();
+</script>
+</body>
+</html>

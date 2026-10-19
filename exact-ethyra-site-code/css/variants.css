@@ -1,0 +1,360 @@
+/* ==========================================================================
+   ETHYRA CONSULTING SERVICES - 5 MINIMALIST HERO VARIATIONS
+   Brand Color Palette:
+   - Primary Deep Navy: #002c8b
+   - Vivid Cerulean Cyan: #009ae0
+   - Pure White: #ffffff
+   - Tech Grid: rgba(0, 44, 139, 0.055)
+   - Warm Amber Micro-Accents: #f59e0b
+   Strict Rules:
+   - Official Ethyra Logo Only
+   - Text: Only "Good intentions are a start. The real question is, what changed?" + CTA buttons
+   - Zero filler or repeated content
+   - Clean, uncluttered, premium corporate aesthetic (inspired by the4thwheel.com)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --navy: #002c8b;
+  --navy-dark: #001e63;
+  --cyan: #009ae0;
+  --cyan-light: #e6f6fd;
+  --cyan-glow: rgba(0, 154, 224, 0.25);
+  --white: #ffffff;
+  --bg-page: #fbfdfd;
+  --grid-line: rgba(0, 44, 139, 0.055);
+  --gear-metal: #cbd5e1;
+  --gear-metal-dark: #94a3b8;
+  --gear-stroke: #64748b;
+  --amber: #f59e0b;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-page);
+  color: var(--navy);
+  line-height: 1.5;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   Blueprint Grid Background
+   ========================================================================== */
+.hero-stage {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Isometric Grid Background for Variant 1 */
+.hero-stage.isometric-grid {
+  background-image: 
+    linear-gradient(30deg, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(-30deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 50px 86.6px;
+}
+
+/* ==========================================================================
+   Header Navbar with Official Ethyra Logo
+   ========================================================================== */
+.site-nav-header {
+  position: relative;
+  z-index: 50;
+  width: 100%;
+  padding: 1.5rem 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.frosted-nav-card {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1.4rem;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 44, 139, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 44, 139, 0.05);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.frosted-nav-card:hover {
+  background: #ffffff;
+  box-shadow: 0 6px 24px rgba(0, 154, 224, 0.14);
+  transform: translateY(-1px);
+}
+
+.official-logo-img {
+  height: 48px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.75rem;
+  list-style: none;
+}
+
+.nav-link-item a {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #334155;
+  text-decoration: none;
+  position: relative;
+  padding: 0.35rem 0;
+  transition: color 0.25s ease;
+}
+
+.nav-link-item a:hover {
+  color: var(--cyan);
+}
+
+.nav-link-item a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--cyan);
+  transition: width 0.25s ease;
+}
+
+.nav-link-item a:hover::after {
+  width: 100%;
+}
+
+/* ==========================================================================
+   Hero Content Grid Layout
+   ========================================================================== */
+.hero-layout-grid {
+  position: relative;
+  z-index: 10;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3.5rem 3.5rem 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  align-items: center;
+  gap: 3rem;
+  flex: 1;
+}
+
+/* Left Typography Column (Strict Content Only) */
+.hero-text-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-main-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 4.1rem;
+  font-weight: 800;
+  line-height: 1.12;
+  color: var(--navy);
+  letter-spacing: -1.5px;
+  margin-bottom: 2.75rem;
+}
+
+.hero-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.btn-brand-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--navy);
+  color: #ffffff;
+  padding: 0.95rem 2.2rem;
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 44, 139, 0.25);
+  transition: all 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+  border: 2px solid var(--navy);
+}
+
+.btn-brand-primary:hover {
+  background-color: var(--cyan);
+  border-color: var(--cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 154, 224, 0.35);
+}
+
+.btn-brand-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--navy);
+  padding: 0.95rem 2.2rem;
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  border: 2px solid rgba(0, 44, 139, 0.3);
+  transition: all 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.btn-brand-outline:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 154, 224, 0.15);
+}
+
+/* ==========================================================================
+   Right Visual Stage
+   ========================================================================== */
+.hero-visual-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visual-canvas-svg {
+  width: 100%;
+  max-width: 720px;
+  height: 580px;
+  overflow: visible;
+  display: block;
+}
+
+/* ==========================================================================
+   Hairline Precision Gears (Grounded, in-place rotation)
+   ========================================================================== */
+.gear-spin-cw {
+  animation: spin-clockwise 24s linear infinite;
+}
+
+.gear-spin-ccw {
+  animation: spin-counter-clockwise 28s linear infinite;
+}
+
+.gear-spin-slow-cw {
+  animation: spin-clockwise 34s linear infinite;
+}
+
+@keyframes spin-clockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-counter-clockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* ==========================================================================
+   Live In-Lens Graphs (Smooth waves & rising bars)
+   ========================================================================== */
+.wave-line-cyan {
+  stroke-dasharray: 280;
+  stroke-dashoffset: 280;
+  animation: draw-flowing-wave 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+.wave-line-navy {
+  stroke-dasharray: 280;
+  stroke-dashoffset: 280;
+  animation: draw-flowing-wave 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+@keyframes draw-flowing-wave {
+  0% { stroke-dashoffset: 280; opacity: 0.5; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* Ascending Bar Chart */
+.bar-elem {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: bar-pulse-rise 2.4s ease-in-out infinite alternate;
+}
+
+.bar-d1 { animation-delay: 0.1s; }
+.bar-d2 { animation-delay: 0.3s; }
+.bar-d3 { animation-delay: 0.5s; }
+.bar-d4 { animation-delay: 0.7s; }
+.bar-d5 { animation-delay: 0.9s; }
+.bar-d6 { animation-delay: 1.1s; }
+
+@keyframes bar-pulse-rise {
+  0% { transform: scaleY(0.7); }
+  100% { transform: scaleY(1.15); }
+}
+
+/* 3D Golden Amber Micro Beads */
+.amber-micro-bead {
+  filter: drop-shadow(0 4px 6px rgba(245, 158, 11, 0.35));
+}
+
+/* Variant Selector Bar (Top sticky pill to easily switch between 5 variants) */
+.variant-switcher-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(0, 44, 139, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 10px 30px rgba(0, 44, 139, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.variant-btn-pill {
+  padding: 0.45rem 1.15rem;
+  border-radius: 9999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.variant-btn-pill:hover,
+.variant-btn-pill.active {
+  background: var(--cyan);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 154, 224, 0.4);
+}

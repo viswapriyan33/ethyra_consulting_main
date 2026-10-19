@@ -1,0 +1,553 @@
+/* ==========================================================================
+   ETHYRA CONSULTING SERVICES - HERO EXACT REFERENCE RECONSTRUCTION
+   Design. Deliver. Demonstrate.
+   Features:
+   - Top Camouflage Header Banner with Frosted Glass Logo Box
+   - Exact Headline: "Good intentions are a start. The real question is, what changed?"
+   - Buttons: "Contact Us" & "Explore Our Work"
+   - Locked In-Place Mechanical Gear Train (4 Rotating Cogs / Screws)
+   - Running Drive Belt with Friction Gold Sparkles
+   - Center Optical Magnifying Lens ("Search")
+   - In-Lens Live Animated Social Metrics Graphs (Line Waves & Rising Bars)
+   - Stationary 3D Golden Amber Spheres (No Flying)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --color-navy: #0f1e36;
+  --color-navy-deep: #002c8b;
+  --color-cyan: #009ae0;
+  --color-teal-dark: #375358;
+  --color-teal-btn: #38555b;
+  --color-camo-1: #4c666a;
+  --color-camo-2: #5f7a7d;
+  --color-camo-3: #759093;
+  --color-camo-4: #3c5457;
+  --color-grid: #e2e8f0;
+  --color-text-main: #0f172a;
+  --color-text-sub: #475569;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #fbfcfa;
+  color: var(--color-text-main);
+  line-height: 1.5;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   Blueprint Grid Background (Crisp Technical Mesh)
+   ========================================================================== */
+.hero-page-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fbfdfc;
+  background-image: 
+    linear-gradient(to right, rgba(0, 44, 139, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 44, 139, 0.055) 1px, transparent 1px);
+  background-size: 42px 42px;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Top Camouflage Header Banner
+   ========================================================================== */
+.camo-header-bar {
+  position: relative;
+  width: 100%;
+  height: 96px;
+  background-color: #5b7679;
+  overflow: visible;
+  z-index: 50;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.camo-svg-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.header-container {
+  position: relative;
+  max-width: 1440px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Frosted Glass Camouflaged Logo Box */
+.frosted-logo-card {
+  position: relative;
+  top: 14px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1.4rem;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 30, 60, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 60;
+  text-decoration: none;
+}
+
+.frosted-logo-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 36px rgba(0, 154, 224, 0.18);
+}
+
+.frosted-logo-card img {
+  height: 52px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Navigation Links */
+.header-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links-list {
+  display: flex;
+  align-items: center;
+  gap: 2.75rem;
+  list-style: none;
+}
+
+.nav-link {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  position: relative;
+  padding: 0.35rem 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ffffff;
+  transition: width 0.25s ease;
+  border-radius: 2px;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ==========================================================================
+   Hero Section Main Content
+   ========================================================================== */
+.hero-main-stage {
+  position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 4.5rem 3.5rem 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  align-items: center;
+  gap: 2.5rem;
+  min-height: calc(100vh - 96px);
+}
+
+/* Left Content Column */
+.hero-typography-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 10;
+}
+
+.hero-subhead-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--color-cyan);
+  margin-bottom: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hero-subhead-tag::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: var(--color-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--color-cyan);
+}
+
+.hero-title-exact {
+  font-family: 'Outfit', sans-serif;
+  font-size: 3.85rem;
+  font-weight: 800;
+  line-height: 1.14;
+  color: var(--color-navy);
+  letter-spacing: -1.2px;
+  margin-bottom: 2rem;
+}
+
+.hero-supporting-copy {
+  font-size: 1.15rem;
+  color: var(--color-text-sub);
+  line-height: 1.7;
+  max-width: 530px;
+  margin-bottom: 1.85rem;
+}
+
+.hero-evidence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #002c8b;
+  background: #eaf4fb;
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 154, 224, 0.25);
+  margin-bottom: 2.5rem;
+  width: fit-content;
+}
+
+/* Action Buttons (Exact to screenshot) */
+.hero-cta-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.btn-contact-teal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background-color: var(--color-teal-btn);
+  color: #ffffff;
+  padding: 0.85rem 1.95rem;
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(56, 85, 91, 0.3);
+  transition: all 0.25s ease;
+  border: 2px solid var(--color-teal-btn);
+}
+
+.btn-contact-teal:hover {
+  background-color: #273e43;
+  border-color: #273e43;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(56, 85, 91, 0.4);
+}
+
+.btn-explore-white {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background-color: #ffffff;
+  color: #1e293b;
+  padding: 0.85rem 1.95rem;
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  border: 2px solid #334155;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.btn-explore-white:hover {
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 154, 224, 0.15);
+}
+
+/* ==========================================================================
+   Right Column: Grounded Mechanical Gear & Optical Lens Engine
+   (Stationary, in-place rotation, in-lens graph animations, no flying)
+   ========================================================================== */
+.hero-visual-col {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gear-engine-stage {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  height: 640px;
+}
+
+.gear-engine-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+/* ==========================================================================
+   Gear Rotation Animations (Settings / Screws rotate in place)
+   ========================================================================== */
+/* Cog 1: Top-Left (Center: 270, 180) -> Clockwise */
+.cog-tl {
+  transform-origin: 270px 180px;
+  animation: rotate-cog-cw 18s linear infinite;
+}
+
+/* Cog 2: Top-Right (Center: 530, 205) -> Counter-Clockwise */
+.cog-tr {
+  transform-origin: 530px 205px;
+  animation: rotate-cog-ccw 22s linear infinite;
+}
+
+/* Cog 3: Bottom-Left Big Master Gear (Center: 245, 415) -> Counter-Clockwise */
+.cog-bl {
+  transform-origin: 245px 415px;
+  animation: rotate-cog-ccw 26s linear infinite;
+}
+
+/* Cog 4: Bottom-Right (Center: 470, 465) -> Clockwise */
+.cog-br {
+  transform-origin: 470px 465px;
+  animation: rotate-cog-cw 16s linear infinite;
+}
+
+@keyframes rotate-cog-cw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rotate-cog-ccw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* ==========================================================================
+   Continuous Drive Belt (Flowing Dash Track & Friction Sparks)
+   ========================================================================== */
+.belt-outer-band {
+  fill: none;
+  stroke: #253338;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+}
+
+.belt-groove-runner {
+  fill: none;
+  stroke: #f59e0b;
+  stroke-width: 2.5;
+  stroke-dasharray: 8 8;
+  animation: belt-track-flow 1s linear infinite;
+}
+
+@keyframes belt-track-flow {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -32; }
+}
+
+/* Sparkle Particles along belt pulleys */
+.spark-glint {
+  animation: spark-twinkle 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes spark-twinkle {
+  0% { opacity: 0.2; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1.35); }
+  100% { opacity: 0.3; transform: scale(0.8); }
+}
+
+/* ==========================================================================
+   Stationary 3D Golden Amber Spheres (No flying, strictly grounded)
+   ========================================================================== */
+.golden-sphere {
+  filter: drop-shadow(0 6px 10px rgba(180, 83, 9, 0.28));
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Magnifying Optical Lens Assembly ("Search")
+   ========================================================================== */
+.optical-search-assembly {
+  transform-origin: 395px 305px;
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.optical-search-assembly:hover {
+  transform: scale(1.02);
+}
+
+.lens-rim-outer {
+  fill: url(#metallicRimGrad);
+  stroke: #1e293b;
+  stroke-width: 3.5;
+  filter: drop-shadow(0 16px 32px rgba(0, 44, 139, 0.22));
+}
+
+.lens-handle-shaft {
+  fill: url(#handleMetalGrad);
+  stroke: #0f172a;
+  stroke-width: 3;
+}
+
+/* ==========================================================================
+   Inside Search: Live Graph Animations
+   ========================================================================== */
+/* 1. Animated Line Waves */
+.live-wave-amber {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: draw-line-wave 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+.live-wave-cyan {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: draw-line-wave 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+.live-wave-blue {
+  stroke-dasharray: 240;
+  stroke-dashoffset: 240;
+  animation: draw-line-wave 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+@keyframes draw-line-wave {
+  0% { stroke-dashoffset: 220; opacity: 0.4; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* 2. Animated Rising & Pulsing Bars */
+.live-bar {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: bar-grow 2.6s ease-in-out infinite alternate;
+}
+
+.b-1 { animation-delay: 0.1s; }
+.b-2 { animation-delay: 0.35s; }
+.b-3 { animation-delay: 0.6s; }
+.b-4 { animation-delay: 0.85s; }
+.b-5 { animation-delay: 1.1s; }
+.b-6 { animation-delay: 0.4s; }
+.b-7 { animation-delay: 0.75s; }
+.b-8 { animation-delay: 0.2s; }
+
+@keyframes bar-grow {
+  0% { transform: scaleY(0.68); }
+  100% { transform: scaleY(1.12); }
+}
+
+/* Pulsing trend indicators inside cards */
+.pulse-badge {
+  animation: badge-breathe 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes badge-breathe {
+  0% { opacity: 0.85; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.02); }
+}
+
+/* Specular glass reflection */
+.lens-glass-reflection {
+  fill: url(#glassGlossGrad);
+  pointer-events: none;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1200px) {
+  .hero-main-stage {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 3rem 2rem 4rem;
+  }
+  
+  .hero-typography-col {
+    text-align: center;
+    align-items: center;
+  }
+  
+  .hero-title-exact {
+    font-size: 3.2rem;
+  }
+  
+  .hero-cta-buttons {
+    justify-content: center;
+  }
+  
+  .frosted-logo-card {
+    top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 1.5rem;
+  }
+  
+  .nav-links-list {
+    display: none;
+  }
+  
+  .hero-title-exact {
+    font-size: 2.5rem;
+  }
+  
+  .hero-cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn-contact-teal, .btn-explore-white {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .gear-engine-stage {
+    height: 480px;
+  }
+}
