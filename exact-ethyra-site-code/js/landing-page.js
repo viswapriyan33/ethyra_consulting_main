@@ -169,5 +169,66 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+  // 6. Section 02: Our Perspective — Scroll-Triggered Text & Cards Animation
+  const perspectiveSection = document.getElementById('perspective');
+  if (perspectiveSection && 'IntersectionObserver' in window) {
+    const pObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          perspectiveSection.classList.add('is-visible');
+
+          // GSAP timeline enhancement if GSAP is loaded
+          if (typeof gsap !== 'undefined') {
+            const tl = gsap.timeline();
+
+            // Headline lines stagger
+            const headlineLines = perspectiveSection.querySelectorAll('.headline-part');
+            if (headlineLines.length) {
+              tl.fromTo(headlineLines, 
+                { y: 32, opacity: 0, rotateX: 8 },
+                { y: 0, opacity: 1, rotateX: 0, duration: 0.8, ease: 'power3.out', stagger: 0.14 },
+                0
+              );
+            }
+
+            // Draw SVG underline
+            const underlinePath = perspectiveSection.querySelector('.headline-underline path');
+            if (underlinePath) {
+              tl.fromTo(underlinePath,
+                { strokeDashoffset: 290 },
+                { strokeDashoffset: 0, duration: 0.85, ease: 'power2.out' },
+                0.35
+              );
+            }
+
+            // Bridge banner
+            const bridgeBanner = perspectiveSection.querySelector('.perspective-bridge-banner');
+            if (bridgeBanner) {
+              tl.fromTo(bridgeBanner,
+                { y: 24, opacity: 0, scale: 0.96 },
+                { y: 0, opacity: 1, scale: 1, duration: 0.65, ease: 'back.out(1.4)' },
+                0.3
+              );
+            }
+
+            // Stagger perspective cards
+            const pCards = perspectiveSection.querySelectorAll('.perspective-card');
+            if (pCards.length) {
+              tl.fromTo(pCards,
+                { y: 35, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.75, ease: 'power3.out', stagger: 0.16 },
+                0.22
+              );
+            }
+          }
+
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    pObserver.observe(perspectiveSection);
+  }
 });
 

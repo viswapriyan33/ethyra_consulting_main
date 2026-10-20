@@ -367,3 +367,279 @@
     padding: 1.25rem;
   }
 }
+
+/* ==========================================================================
+   PERSPECTIVE VERTICAL SCROLL TRACK & 3 STACKED CARDS
+   (Dark Blue #002c8b, White #ffffff, Sky Blue #009ae0)
+   ========================================================================== */
+.perspective-scroll-track {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 250vh !important;
+  background: radial-gradient(circle at 50% 15%, #eef7fc 0%, #eeeff3 60%, #e6eaf0 100%) !important;
+  border-top: 1px solid rgba(0, 44, 139, 0.08) !important;
+  border-bottom: 1px solid rgba(0, 44, 139, 0.08) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.perspective-sticky-frame {
+  position: sticky !important;
+  top: 72px !important;
+  height: calc(100vh - 72px) !important;
+  max-height: 940px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 1.2rem 1.5rem 1.5rem !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  z-index: 2 !important;
+}
+
+.perspective-header-block {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 1.15rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.perspective-header-block .perspective-kicker-badge {
+  margin-bottom: 0.2rem !important;
+}
+
+.perspective-header-block .perspective-headline {
+  margin-bottom: 0.35rem !important;
+  font-size: clamp(1.85rem, 3.2vw, 2.75rem) !important;
+  line-height: 1.14 !important;
+}
+
+.perspective-header-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+
+.perspective-header-meta .perspective-bridge-banner {
+  padding: 0.75rem 1.25rem !important;
+  border-radius: 999px !important;
+}
+
+.perspective-header-meta .bridge-inner {
+  gap: 0.85rem !important;
+}
+
+.perspective-header-meta .bridge-icon {
+  width: 34px !important;
+  height: 34px !important;
+}
+
+.perspective-header-meta .bridge-statement {
+  font-size: 0.95rem !important;
+}
+
+.perspective-stack-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#perspectiveDeck {
+  --stack-card-w: clamp(300px, min(65vw, 68vh), 720px);
+  --stack-card-ratio: .64;
+  --stack-offset: clamp(14px, 2.2vw, 22px);
+  --stack-radius: 18px;
+  position: relative;
+  width: var(--stack-card-w);
+  height: calc(var(--stack-card-w) * var(--stack-card-ratio));
+  margin: 0 auto;
+  touch-action: none;
+  cursor: grab;
+}
+
+#perspectiveDeck:active {
+  cursor: grabbing;
+}
+
+/* Perspective Cards in 3 specific colors */
+.perspective-card-stack {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--stack-radius);
+  padding: calc(var(--stack-card-w) * .042);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  will-change: transform, opacity;
+  box-shadow: 0 28px 60px -15px rgba(0, 44, 139, 0.22), 0 10px 25px -10px rgba(0, 0, 0, 0.08);
+  transform-origin: 50% 100%;
+  overflow: hidden;
+  border: 1px solid rgba(0, 44, 139, 0.08);
+  transition: box-shadow .3s ease;
+}
+
+/* Card 1: Dark Blue */
+#persp-card-1 {
+  background: var(--c, #002c8b) !important;
+  color: var(--ink, #ffffff) !important;
+}
+
+#persp-card-1 .micro-badge {
+  background: rgba(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.32) !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  font-size: calc(var(--stack-card-w) * .021);
+}
+
+/* Card 2: White */
+#persp-card-2 {
+  background: var(--c, #ffffff) !important;
+  color: var(--ink, #002c8b) !important;
+  border: 1.5px solid rgba(0, 44, 139, 0.14) !important;
+  box-shadow: 0 28px 60px -15px rgba(0, 44, 139, 0.16), 0 10px 25px -10px rgba(0, 0, 0, 0.05) !important;
+}
+
+#persp-card-2 .pillar-pill {
+  background: #f0f7ff !important;
+  border: 1px solid rgba(0, 44, 139, 0.18) !important;
+  color: #002c8b !important;
+  font-weight: 700;
+  padding: 0.32rem 0.85rem;
+  border-radius: 9999px;
+  font-size: calc(var(--stack-card-w) * .021);
+}
+
+#persp-card-2 .pillar-connector {
+  color: #009ae0 !important;
+  font-weight: 800;
+}
+
+/* Card 3: Sky Blue */
+#persp-card-3 {
+  background: var(--c, #009ae0) !important;
+  color: var(--ink, #ffffff) !important;
+}
+
+#persp-card-3 .resolution-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+  margin-top: 0.4rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+#persp-card-3 .resolution-metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  padding: 0.35rem 0.65rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+#persp-card-3 .res-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: calc(var(--stack-card-w) * .02);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #ffffff !important;
+}
+
+#persp-card-3 .res-label {
+  font-size: calc(var(--stack-card-w) * .02);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Bottom UI & Scroll Hint */
+.perspective-stack-ui {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.perspective-scroll-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 2px;
+  animation: bounceHint 2.2s infinite ease-in-out;
+}
+
+.perspective-scroll-hint svg {
+  color: var(--c-cyan);
+}
+
+@keyframes bounceHint {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+@media (max-width: 768px) {
+  .perspective-scroll-track {
+    min-height: 220vh !important;
+  }
+  .perspective-sticky-frame {
+    top: 60px !important;
+    height: calc(100vh - 60px) !important;
+    padding: 0.75rem 0.75rem 1rem !important;
+  }
+  .perspective-header-block {
+    margin-bottom: 0.75rem !important;
+  }
+  .perspective-header-block .perspective-headline {
+    font-size: 1.45rem !important;
+  }
+  .perspective-header-meta .perspective-bridge-banner {
+    display: none;
+  }
+  #perspectiveDeck {
+    --stack-card-w: clamp(275px, 92vw, 360px);
+    --stack-card-ratio: .88;
+  }
+  .perspective-card-stack {
+    padding: 1.15rem;
+  }
+  .perspective-card-stack .stack__top {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+  }
+  .perspective-card-stack .stack__img-wrap {
+    display: none;
+  }
+  .perspective-card-stack .stack__stage-badge {
+    position: static;
+    display: inline-block;
+    margin-bottom: 4px;
+    width: fit-content;
+  }
+}
+

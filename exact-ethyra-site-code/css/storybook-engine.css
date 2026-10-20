@@ -1,0 +1,512 @@
+/* ==========================================================================
+   ETHYRA STORYBOOK & DRAGGABLE SEARCH GLASS ENGINE
+   Tactile 3D Open Landscape Book (1760/1240) with Curled Page-Turns & Optical Loupe
+   Palette:
+   - Deep Royal Navy: #002c8b
+   - Dark Navy: #001848
+   - Vivid Cyan: #009ae0
+   - Sky Tint: #e0f2fe
+   - Pure White: #ffffff
+   ========================================================================== */
+
+:root {
+  --sb-navy: #002c8b;
+  --sb-navy-dark: #001848;
+  --sb-cyan: #009ae0;
+  --sb-cyan-glow: rgba(0, 154, 224, 0.4);
+  --sb-paper: #f8fafc;
+  --sb-ink: #0f172a;
+  --sb-ink-soft: #475569;
+  --sb-ink-faint: #94a3b8;
+  --sb-hairline: rgba(0, 44, 139, 0.12);
+  --pg: 8.1%;
+}
+
+/* ==========================================================================
+   Hero Stage (Landscape Book on Top, Hero Content Below)
+   ========================================================================== */
+.hero-stage--landscape {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 1.8rem 1.5rem 4.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.25rem;
+  width: 100%;
+}
+
+.hero-storybook-stage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content-below {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.hero-content-below .hero-tag-badge {
+  margin-bottom: 1.25rem;
+}
+
+.hero-content-below .hero-title {
+  font-size: clamp(2.2rem, 3.8vw, 3.6rem);
+  line-height: 1.15;
+  margin-bottom: 2rem;
+  color: var(--sb-navy-dark);
+}
+
+.hero-content-below .hero-title-highlight {
+  color: var(--sb-cyan);
+}
+
+.hero-content-below .hero-cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* Storybook Wrap */
+.sb-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sb-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  touch-action: pan-y;
+}
+
+/* Hide all buttons & controls as explicitly requested */
+.sb-arrow,
+.sb-captions,
+.sb-tools,
+.sb-hint {
+  display: none !important;
+}
+
+/* 3D Perspective Stage (Grand Taller Landscape) */
+.sb-3d {
+  position: relative;
+  flex: 1 1;
+  min-width: 0;
+  max-width: 1140px;
+  width: 100%;
+  perspective: 1800px;
+  perspective-origin: 50% 46%;
+}
+
+.sb-tilt {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--zoom, 1));
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+/* Book Spread Container (Landscape Aspect Ratio: 1760 / 1240) */
+.sb-book {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1760 / 1240;
+  transform-style: preserve-3d;
+  z-index: 1;
+  cursor: grab;
+}
+
+.sb-book:active {
+  cursor: grabbing;
+}
+
+/* Shadows beneath book */
+.sb-cast {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sb-cast.ambient {
+  left: 5%;
+  right: 5%;
+  top: 27%;
+  bottom: 2%;
+  background: radial-gradient(50% 50% at 50% 58%,
+    rgba(0, 44, 139, 0.24) 0%, rgba(0, 44, 139, 0.12) 40%, rgba(0, 44, 139, 0) 74%);
+  filter: blur(28px);
+  opacity: calc(1 - var(--shade, 0) * 0.42);
+}
+
+.sb-cast.contact {
+  left: 9%;
+  right: 9%;
+  top: 62%;
+  bottom: 10%;
+  background: radial-gradient(50% 44% at 50% 42%,
+    rgba(0, 24, 72, 0.30) 0%, rgba(0, 24, 72, 0.14) 48%, rgba(0, 24, 72, 0) 78%);
+  filter: blur(12px);
+  opacity: calc(1 - var(--shade, 0) * 0.5);
+}
+
+.sb-cast.hair {
+  left: 12%;
+  right: 12%;
+  top: 70%;
+  bottom: 17%;
+  background: radial-gradient(50% 52% at 50% 40%,
+    rgba(0, 24, 72, 0.28) 0%, rgba(0, 24, 72, 0) 76%);
+  filter: blur(4px);
+  opacity: calc(1 - var(--shade, 0) * 0.62);
+}
+
+/* Full flat spread when idle */
+.sb-full {
+  position: absolute;
+  inset: 0;
+}
+
+.sb-full img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Halves when turning */
+.sb-half {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.sb-half.left {
+  left: 0;
+}
+
+.sb-half.right {
+  left: 50%;
+}
+
+.sb-half-img {
+  width: 200%;
+  max-width: none;
+  height: auto;
+  display: block;
+}
+
+.sb-half-img.right {
+  margin-left: -100%;
+}
+
+/* Shadow thrown onto page beneath leaf */
+.gutter-shade {
+  position: absolute;
+  top: var(--pg, 8.1%);
+  bottom: var(--pg, 8.1%);
+  width: 46%;
+  pointer-events: none;
+  opacity: calc(var(--shade, 0) * 0.62);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+}
+
+.gutter-shade.left {
+  right: 0;
+  background: linear-gradient(270deg, rgba(0, 24, 72, 0.32), rgba(0, 24, 72, 0) 82%);
+}
+
+.gutter-shade.right {
+  left: 0;
+  background: linear-gradient(90deg, rgba(0, 24, 72, 0.26), rgba(0, 24, 72, 0) 82%);
+}
+
+/* Turning Curled Leaf: 18 Nested 3D Strips */
+.curl {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: calc(var(--bw, 0px) * var(--span));
+  transform-style: preserve-3d;
+  z-index: 6;
+}
+
+.curl.next {
+  left: 50%;
+  transform-origin: left center;
+  transform: rotateY(calc(-1 * var(--tt, 0deg)));
+}
+
+.curl.prev {
+  right: 50%;
+  transform-origin: right center;
+  transform: rotateY(var(--tt, 0deg));
+}
+
+.strip {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: calc(var(--bw, 0px) * var(--span) / var(--n));
+  transform-style: preserve-3d;
+}
+
+.curl.next .strip { transform-origin: left center; }
+.curl.prev .strip { transform-origin: right center; }
+
+.curl.next > .strip { left: 0; }
+.curl.prev > .strip { right: 0; left: auto; }
+
+.curl.next .strip .strip { left: 100%; transform: rotateY(var(--td, 0deg)); }
+.curl.prev .strip .strip { right: 100%; transform: rotateY(calc(-1 * var(--td, 0deg))); }
+
+.face {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -1.1px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background-repeat: no-repeat;
+  background-size: var(--bw, 0px) auto;
+}
+
+.face.back {
+  transform: rotateY(180deg);
+}
+
+.face .sh,
+.face .gl {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+}
+
+.face .sh {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--pg, 8.1%);
+  bottom: var(--pg, 8.1%);
+  pointer-events: none;
+}
+
+.curl.next .face.front .sh,
+.curl.prev .face.back .sh {
+  background: linear-gradient(90deg, rgba(0, 24, 72, var(--a1, 0)), rgba(0, 24, 72, var(--a2, 0)));
+}
+
+.curl.next .face.back .sh,
+.curl.prev .face.front .sh {
+  background: linear-gradient(90deg, rgba(0, 24, 72, var(--a2, 0)), rgba(0, 24, 72, var(--a1, 0)));
+}
+
+.face .gl {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--pg, 8.1%);
+  bottom: var(--pg, 8.1%);
+  pointer-events: none;
+  background: #ffffff;
+  opacity: calc(var(--shade, 0) * var(--lit, 1) * var(--lit, 1) * 0.20);
+}
+
+/* Interactive click zones on book pages */
+.sb-zone {
+  position: absolute;
+  top: var(--pg, 8.1%);
+  bottom: var(--pg, 8.1%);
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  z-index: 50;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sb-zone:active {
+  cursor: grabbing;
+}
+
+.sb-prev {
+  left: 5%;
+  width: 45%;
+}
+
+.sb-next {
+  right: 5%;
+  width: 45%;
+}
+
+/* ==========================================================================
+   THE SEARCH GLASS (OPTICAL MAGNIFYING LOUPE)
+   Palette: Metallic Sapphire Chrome Bezel, Navy & Cyan Grip, Glass Optics
+   ========================================================================== */
+.loupe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--lr, 250px);
+  height: var(--lr, 250px);
+  pointer-events: none;
+  z-index: 80;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+
+.loupe.on {
+  opacity: 1;
+}
+
+.loupe.held .ring {
+  cursor: grabbing;
+}
+
+.loupe .ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: auto;
+  cursor: grab;
+  padding: calc(var(--lr, 250px) * 0.058);
+  box-shadow:
+    0 1px 3px rgba(0, 44, 139, 0.35),
+    0 10px 22px rgba(0, 44, 139, 0.24),
+    0 26px 44px rgba(0, 24, 72, 0.20),
+    0 48px 70px rgba(0, 24, 72, 0.14);
+}
+
+.loupe .ring:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  background: linear-gradient(146deg,
+    #ffffff 0%, #d4eaf7 14%, #93c5fd 32%, #009ae0 50%,
+    #002c8b 66%, #e0f2fe 80%, #0284c7 100%);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px rgba(0, 44, 139, 0.6);
+  -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, transparent 0 88.2%, #000 89.8% 100%);
+  mask-image: radial-gradient(circle closest-side at 50% 50%, transparent 0 88.2%, #000 89.8% 100%);
+}
+
+.loupe .grip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--lr, 250px) * 0.74);
+  height: calc(var(--lr, 250px) * 0.125);
+  transform-origin: 0 50%;
+  transform: rotate(40deg) translate(calc(var(--lr, 250px) * 0.33), -50%);
+  border-radius: calc(var(--lr, 250px) * 0.06);
+  pointer-events: auto;
+  cursor: grab;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0 14%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.35) 100%),
+    linear-gradient(90deg, #f1f5f9 0 14%, #009ae0 14% 20%, #002c8b 20% 64%, #001848 64% 92%, #009ae0 92% 100%);
+  box-shadow: 0 8px 18px rgba(0, 44, 139, 0.28), 0 18px 30px rgba(0, 24, 72, 0.18);
+}
+
+.lens {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 44, 139, 0.45),
+    inset 0 4px 14px rgba(0, 154, 224, 0.25),
+    inset 0 -7px 16px rgba(255, 255, 255, 0.2);
+}
+
+.lens .mag {
+  display: none;
+}
+
+.zoomwrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 70;
+  opacity: 0;
+}
+
+.zoominner {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+}
+
+.lens:before,
+.lens:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.lens:before {
+  z-index: 1;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(0, 0, 0, 0) 52%, rgba(0, 154, 224, 0.08) 75%, rgba(0, 44, 139, 0.25) 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(56, 189, 248, 0.35),
+    inset 0 0 0 4px rgba(0, 44, 139, 0.15);
+}
+
+.lens:after {
+  z-index: 2;
+  background:
+    radial-gradient(36% 26% at 29% 19%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 76%),
+    radial-gradient(24% 16% at 74% 86%, rgba(56, 189, 248, 0.2), rgba(255, 255, 255, 0) 80%),
+    linear-gradient(150deg, rgba(255, 255, 255, 0.12) 0 18%, rgba(255, 255, 255, 0) 42%);
+}
+
+@media (pointer: coarse) {
+  .loupe {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sb-3d {
+    max-width: 820px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-stage--landscape {
+    padding: 1.5rem 1rem 3.5rem 1rem;
+    gap: 1.75rem;
+  }
+  .sb-3d {
+    max-width: 100%;
+  }
+}

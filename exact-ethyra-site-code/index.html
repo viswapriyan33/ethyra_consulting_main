@@ -12,7 +12,8 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/landing-page.css?v=8.0">
   <link rel="stylesheet" href="css/magnetic-button.css">
-  <link rel="stylesheet" href="css/dropping-cards.css?v=1.0">
+  <link rel="stylesheet" href="css/dropping-cards.css?v=2.0">
+  <link rel="stylesheet" href="css/storybook-engine.css">
 </head>
 <body>
 
@@ -55,19 +56,43 @@
          Vector-sharp HTML typography, character-by-character typewriter loop,
          and 100% watermark-free, seamless background camouflaged 3D animation
          ========================================================================== -->
-    <section class="hero-stage">
-      <!-- Left Column: Crisp Vector Web Typography & Interactive Actions -->
-      <div class="hero-left">
+    <section class="hero-stage hero-stage--landscape">
+      <!-- Top: Big Landscape 3D Storybook with Draggable Search Glass -->
+      <div class="hero-storybook-stage">
+        <div class="sb-wrap" id="sbWrap">
+          <div class="sb-stage" id="sbStage">
+            <div class="sb-3d" id="sb3d">
+              <div class="sb-tilt" id="sbTilt">
+                <div class="sb-cast ambient" aria-hidden="true"></div>
+                <div class="sb-cast contact" aria-hidden="true"></div>
+                <div class="sb-cast hair" aria-hidden="true"></div>
+                <div class="sb-book" id="sbBook"></div>
+              </div>
+              <div class="zoomwrap" id="zoomWrap" aria-hidden="true">
+                <div class="zoominner" id="zoomInner"></div>
+              </div>
+              <div class="loupe on" id="loupe">
+                <span class="grip"></span>
+                <span class="ring"><span class="lens" id="loupeLens"><span class="mag" id="loupeMag"></span></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom: Hero Headline & Call to Action (Appears Below the Book) -->
+      <div class="hero-content-below">
         <div class="hero-tag-badge">
           <span class="pulse-indicator"></span>
-          <span>Social Impact Advisory & Systems Architecture</span>
+          <span>Social Impact Advisory &amp; Systems Architecture</span>
         </div>
 
         <h1 class="hero-title">
-          <span id="typewriterText">Good intentions<br>are a start.<br>The real question is,<br><span class="accent-highlight">what changed?</span></span><span class="typing-cursor"></span>
+          Good intentions are a start.<br>
+          <span class="hero-title-highlight">The real question is, what changed?</span>
         </h1>
 
-        <div class="hero-cta-row">
+        <div class="hero-cta-group">
           <a href="contact-us.html" class="vs-magnetic-button" data-strength="0.45" data-field="85">
             Contact Us
             <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h9M8.5 4 12.5 8l-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -77,26 +102,198 @@
             <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h9M8.5 4 12.5 8l-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
-
       </div>
+    </section>
 
-      <!-- Right Column: Camouflaged 3D Loupe Animation (Watermark Removed, Zero Margin Line) -->
-      <div class="hero-right">
-        <div class="antigravity-loupe-stage">
-          <div class="loupe-video-container">
-            <video 
-              id="heroLoupeVideo" 
-              class="loupe-video-graphic" 
-              src="assets/hero-loupe-animation.mp4" 
-              autoplay 
-              loop 
-              muted 
-              playsinline 
-              webkit-playsinline
-              preload="auto">
-              <source src="assets/hero-loupe-animation.mp4" type="video/mp4">
-            </video>
+    <!-- ==========================================================================
+         Section 02: Our Perspective — Vertical Scroll Dropping Cards Stack
+         Cards: 01 (Dark Blue #002c8b), 02 (White #ffffff), 03 (Sky Blue #009ae0)
+         ========================================================================== -->
+    <section id="perspective" class="perspective-section perspective-scroll-track" aria-label="Our Perspective">
+      <div class="perspective-bg-glow" aria-hidden="true"></div>
+
+      <div class="perspective-sticky-frame">
+        <div class="perspective-container">
+          
+          <!-- Perspective Header & Mandate Banner -->
+          <div class="perspective-header-block">
+            <div class="perspective-kicker-badge animate-on-scroll" data-anim="fade-down">
+              <span class="perspective-badge-num">02</span>
+              <span class="perspective-badge-dot"></span>
+              <span class="perspective-badge-text">OUR PERSPECTIVE</span>
+            </div>
+
+            <h2 class="perspective-headline animate-on-scroll" data-anim="text-reveal">
+              <span class="headline-part line-1">An activity completed</span>
+              <span class="headline-part line-2">is not the same as a</span>
+              <span class="headline-part line-3 perspective-highlight-text">
+                life changed.
+                <svg class="headline-underline" viewBox="0 0 280 18" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                  <path d="M3 14C70 4 190 2 277 10" stroke="url(#cyanUnderlineGrad)" stroke-width="5" stroke-linecap="round"/>
+                  <defs>
+                    <linearGradient id="cyanUnderlineGrad" x1="0" y1="0" x2="280" y2="0" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#009ae0"/>
+                      <stop offset="1" stop-color="#00e5ff"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
+            </h2>
+
+            <div class="perspective-header-meta">
+              <!-- Bridge Callout: "At Ethyra, we work to close that gap." -->
+              <div class="perspective-bridge-banner animate-on-scroll" data-anim="bridge-pulse">
+                <div class="bridge-glow-pulse" aria-hidden="true"></div>
+                <div class="bridge-inner">
+                  <div class="bridge-icon-wrapper">
+                    <span class="bridge-pulse-ring"></span>
+                    <div class="bridge-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 12h8M13 7l5 5-5 5M6 18V6"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="bridge-copy">
+                    <span class="bridge-eyebrow">OUR MANDATE</span>
+                    <p class="bridge-statement">At Ethyra, we work to <strong>close that gap.</strong></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Palette Mode Switcher (Matching Image 2) -->
+              <div class="stack__theme-toggle" role="group" aria-label="Perspective deck palette">
+                <button class="stack__theme-btn stack__theme-btn--active" id="perspThemeColorBlock" type="button">Brand Color-Block</button>
+                <button class="stack__theme-btn" id="perspThemeWhiteDeck" type="button">Pristine White Deck</button>
+              </div>
+            </div>
           </div>
+
+          <!-- Vertical Dropping Cards Stack Deck -->
+          <div class="perspective-stack-wrapper">
+            <div class="perspective-deck stack__deck" id="perspectiveDeck" aria-label="Perspective insights deck" role="region">
+              
+              <!-- Card 1: The Disconnect (Dark Blue: #002c8b) -->
+              <article class="stack__card perspective-card-stack" id="persp-card-1" data-index="0"
+                       style="--c:#002c8b; --ink:#ffffff; --accent:#009ae0; --badge-bg:rgba(0,154,224,0.32); --badge-color:#38bdf8; --num-color:rgba(255,255,255,0.08); --desc-color:rgba(255,255,255,0.88)">
+                <span class="stack__card-watermark">01</span>
+                <div class="stack__top">
+                  <div class="stack__img-wrap">
+                    <img src="img/drop_35.jpg" alt="The Disconnect" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1581291518655-9523c932deb4?auto=format&amp;fit=crop&amp;w=600&amp;q=80';">
+                    <span class="stack__stage-badge">01 • THE DISCONNECT</span>
+                  </div>
+                  <ul class="stack__list">
+                    <li>Programmes meeting targets while missing root problems</li>
+                    <li>Impressive reports that mask critical gaps in the story</li>
+                    <li>Output metrics mistaken for verified social attribution</li>
+                    <li>Activities completed without lasting community change</li>
+                  </ul>
+                </div>
+                <div class="stack__bottom">
+                  <h3 class="stack__title">The Disconnect.</h3>
+                  <p class="stack__desc">A programme can meet its targets and still miss the problem it was meant to solve. A report can look impressive without telling the whole story. And numbers can show progress without explaining what made the difference.</p>
+                  <div class="card-tags-row perspective-card-tags">
+                    <span class="micro-badge">Target &ne; Problem Solved</span>
+                    <span class="micro-badge">Report &ne; Full Story</span>
+                    <span class="micro-badge">Numbers &ne; Attribution</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card 2: Integrated Evidence (White: #ffffff with Navy #002c8b text) -->
+              <article class="stack__card perspective-card-stack" id="persp-card-2" data-index="1"
+                       style="--c:#ffffff; --ink:#002c8b; --accent:#009ae0; --badge-bg:#e0f2fe; --badge-color:#002c8b; --num-color:rgba(0,44,139,0.08); --desc-color:#475569; border: 1.5px solid rgba(0,44,139,0.14); box-shadow: 0 28px 60px -15px rgba(0, 44, 139, 0.16), 0 10px 25px -10px rgba(0, 0, 0, 0.05);">
+                <span class="stack__card-watermark">02</span>
+                <div class="stack__top">
+                  <div class="stack__img-wrap">
+                    <img src="img/drop_72.jpg" alt="Integrated Evidence" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&amp;fit=crop&amp;w=600&amp;q=80';">
+                    <span class="stack__stage-badge">02 • INTEGRATED EVIDENCE</span>
+                  </div>
+                  <ul class="stack__list">
+                    <li>Connecting community realities with rigorous analytics</li>
+                    <li>Formulating sharp questions for strategic leadership</li>
+                    <li>Generating credible, audit-grade proof of change</li>
+                    <li>De-risking social investments through verified outcomes</li>
+                  </ul>
+                </div>
+                <div class="stack__bottom">
+                  <h3 class="stack__title">Integrated Evidence.</h3>
+                  <p class="stack__desc">We connect community realities, practical strategy, and credible evidence to help organisations ask better questions, make informed decisions, and understand the outcomes of their social investments.</p>
+                  <div class="pillar-pills-row perspective-card-pills">
+                    <span class="pillar-pill">Community Realities</span>
+                    <span class="pillar-connector">&bull;</span>
+                    <span class="pillar-pill">Practical Strategy</span>
+                    <span class="pillar-connector">&bull;</span>
+                    <span class="pillar-pill">Credible Evidence</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card 3: Meaningful Change (Sky Blue: #009ae0) -->
+              <article class="stack__card perspective-card-stack" id="persp-card-3" data-index="2"
+                       style="--c:#009ae0; --ink:#ffffff; --accent:#001848; --badge-bg:rgba(0,44,139,0.32); --badge-color:#ffffff; --num-color:rgba(255,255,255,0.18); --desc-color:rgba(255,255,255,0.92)">
+                <span class="stack__card-watermark">03</span>
+                <div class="stack__top">
+                  <div class="stack__img-wrap">
+                    <img src="img/drop_34.jpg" alt="Meaningful Change" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&amp;fit=crop&amp;w=600&amp;q=80';">
+                    <span class="stack__stage-badge">03 • MEANINGFUL CHANGE</span>
+                  </div>
+                  <ul class="stack__list">
+                    <li>Moving beyond activities delivered to durable impact</li>
+                    <li>Understanding what interventions truly achieve</li>
+                    <li>Identifying exactly for whom change takes place</li>
+                    <li>Uncovering the causal 'why' behind positive transformation</li>
+                  </ul>
+                </div>
+                <div class="stack__bottom">
+                  <h3 class="stack__title">Meaningful Change.</h3>
+                  <p class="stack__desc">Because meaningful social change requires more than activities delivered. It requires understanding what those activities achieve, for whom, and why.</p>
+                  <div class="resolution-metrics-grid perspective-card-metrics">
+                    <div class="resolution-metric-item">
+                      <span class="res-num">WHAT</span>
+                      <span class="res-label">Outcomes Achieved</span>
+                    </div>
+                    <div class="resolution-metric-item">
+                      <span class="res-num">FOR WHOM</span>
+                      <span class="res-label">Community Impact</span>
+                    </div>
+                    <div class="resolution-metric-item">
+                      <span class="res-num">WHY</span>
+                      <span class="res-label">Causal Attribution</span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+
+            <!-- UI controls: Prev, Next & Progress Dots -->
+            <div class="stack__ui perspective-stack-ui">
+              <button class="stack__btn stack__btn--prev perspective-prev-btn" aria-label="Previous insight">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 3L5 8l5 5"/>
+                </svg>
+              </button>
+              <div class="stack__dots perspective-dots" aria-hidden="true">
+                <span class="stack__dot perspective-dot stack__dot--active" data-goto="0"></span>
+                <span class="stack__dot perspective-dot" data-goto="1"></span>
+                <span class="stack__dot perspective-dot" data-goto="2"></span>
+              </div>
+              <button class="stack__btn stack__btn--next perspective-next-btn" aria-label="Next insight">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 3l5 5-5 5"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Scroll indicator hint -->
+            <div class="perspective-scroll-hint" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+              </svg>
+              <span>Scroll down vertically to discover</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -396,7 +593,9 @@
   <script src="js/magnetic-button.js"></script>
   <!-- GSAP 3.12.5 from jsDelivr -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="js/dropping-cards.js?v=1.0"></script>
+  <script src="js/dropping-cards.js?v=2.0"></script>
+  <!-- Storybook & Draggable Optical Search Glass Engine -->
+  <script src="js/storybook-engine.js"></script>
 </body>
 </html>
 
