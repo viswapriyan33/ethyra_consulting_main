@@ -55,7 +55,7 @@ html {
 
 body {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #eeeff3;
+  background-color: #ffffff;
   color: var(--slate-800);
   line-height: 1.6;
   overflow-x: hidden;
@@ -70,11 +70,7 @@ body {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-color: #eeeff3;
-  background-image: 
-    linear-gradient(30deg, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(-30deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 54px 93.5px;
+  background-color: #ffffff;
 }
 
 .ambient-orb {
@@ -256,7 +252,7 @@ body {
   width: 100%;
   max-width: 1320px;
   aspect-ratio: 16 / 9;
-  background-color: #eeeff3;
+  background-color: #ffffff;
   border-radius: 0;
   overflow: hidden;
   box-shadow: none;
@@ -269,7 +265,7 @@ body {
   height: 100%;
   object-fit: contain;
   display: block;
-  background-color: #eeeff3;
+  background-color: #ffffff;
   border: none;
   outline: none;
   box-shadow: none;
@@ -306,12 +302,12 @@ body {
 .hero-stage {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 3.5rem 2rem 5rem 2rem;
+  padding: 2rem 2rem 2.5rem 2rem;
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   align-items: center;
-  gap: 3.5rem;
-  min-height: calc(88vh - 100px);
+  gap: 2.5rem;
+  min-height: auto;
 }
 
 .hero-left {
@@ -769,12 +765,12 @@ body {
    ========================================================================== */
 .perspective-section {
   position: relative;
-  padding: 6.5rem 2rem 7rem 2rem;
+  padding: 1.6rem 2rem 1.6rem 2rem;
   width: 100%;
   overflow: hidden;
-  background-color: #eeeff3;
+  background-color: #ffffff;
   border-top: 1px solid rgba(0, 44, 139, 0.06);
-  scroll-margin-top: 110px;
+  scroll-margin-top: 85px;
 }
 
 .perspective-bg-glow {
@@ -1305,7 +1301,7 @@ body {
 .services-section {
   position: relative;
   background: radial-gradient(circle at 50% 15%, #102a5c 0%, #0a1e46 55%, #061530 100%);
-  padding: 5.5rem 2rem 6.5rem 2rem;
+  padding: 1.6rem 2rem 1.8rem 2rem;
   width: 100%;
   overflow: hidden;
   border-top: 1px solid rgba(56, 189, 248, 0.2);
@@ -1745,7 +1741,7 @@ body {
 .site-footer {
   background: #ffffff;
   border-top: 1px solid var(--slate-200);
-  padding: 4.5rem 2rem 2.5rem 2rem;
+  padding: 2.5rem 2rem 2rem 2rem;
 }
 
 .footer-container {
