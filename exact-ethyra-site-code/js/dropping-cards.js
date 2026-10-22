@@ -353,6 +353,23 @@
     deck.addEventListener('pointerup', onPointerUp);
     deck.addEventListener('pointercancel', onPointerUp);
 
+    // Wheel Scroll on Deck: Advance to next card when scrolling down
+    let deckWheelCooldown = false;
+    deck.addEventListener('wheel', (e) => {
+      if (deckWheelCooldown) return;
+      if (Math.abs(e.deltaY) > 20) {
+        deckWheelCooldown = true;
+        setTimeout(() => { deckWheelCooldown = false; }, 450);
+        if (e.deltaY > 0) {
+          resetAutoplay();
+          goNext();
+        } else {
+          resetAutoplay();
+          goPrev();
+        }
+      }
+    }, { passive: true });
+
     // ==========================================
     // Autoplay Timer
     // ==========================================
@@ -445,14 +462,14 @@
   }
 
   /**
-   * Section 02: Our Perspective — Vertical Scroll-Driven Dropping Cards
+   * Section 02: Our Perspective — Animated Shift Dropping Cards
    * 3 Cards: Dark Blue (#002c8b), White (#ffffff), Sky Blue (#009ae0)
-   * Strictly vertical scroll transitions (no horizontal offset)
+   * Wheel / Click / Scroll advances cards one by one with animated GSAP shift
    */
   function initPerspectiveScrollCards() {
     const track = document.querySelector('.perspective-scroll-track');
     const deck = document.getElementById('perspectiveDeck');
-    if (!track || !deck) return;
+    if (!deck) return;
 
     const cards = Array.from(deck.querySelectorAll('.perspective-card-stack'));
     if (!cards.length) return;
@@ -464,9 +481,9 @@
     const themeWhiteDeckBtn = document.getElementById('perspThemeWhiteDeck');
 
     let activeIndex = 0;
-    let isClickScrolling = false;
+    let isBusy = false;
+    const offset = 22;
 
-    // Cache original styles for theme switching
     const originalStyles = cards.map(c => c.getAttribute('style') || '');
 
     function updateDots(idx) {
@@ -477,156 +494,136 @@
       }
     }
 
-    function setCardTransform(card, x, y, scale, rot, zIndex, opacity) {
-      if (typeof gsap !== 'undefined') {
-        gsap.set(card, {
-          x: x,
-          y: y,
-          scale: scale,
-          rotation: rot,
-          zIndex: zIndex,
-          opacity: opacity,
-          overwrite: 'auto'
-        });
-      } else {
-        card.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rot}deg)`;
-        card.style.zIndex = zIndex;
-        card.style.opacity = opacity;
-      }
+    function layoutCards(animated) {
+      cards.forEach((card, idx) => {
+        const slot = (idx - activeIndex + cards.length) % cards.length;
+        const z = cards.length - slot;
+        const targetY = slot * offset;
+        const targetScale = 1 - slot * 0.02;
+        const targetOpacity = slot === 0 ? 1 : (slot === 1 ? 0.95 : 0.88);
+
+        if (!animated || typeof gsap === 'undefined') {
+          card.style.transform = `translate3d(0, ${targetY}px, 0) scale(${targetScale})`;
+          card.style.zIndex = z;
+          card.style.opacity = targetOpacity;
+        } else {
+          gsap.to(card, {
+            x: 0,
+            y: targetY,
+            scale: targetScale,
+            opacity: targetOpacity,
+            zIndex: z,
+            duration: 0.65,
+            ease: 'expo.out'
+          });
+        }
+      });
+      updateDots(activeIndex);
     }
 
-    // Scroll progress handler
-    function onScroll() {
-      if (isClickScrolling) return;
+    function goNext() {
+      if (isBusy) return;
+      isBusy = true;
+      const frontCard = cards[activeIndex];
+      const nextIndex = (activeIndex + 1) % cards.length;
+      const cardHeight = frontCard.offsetHeight || 380;
 
-      const rect = track.getBoundingClientRect();
-      const windowH = window.innerHeight;
-      const totalScroll = track.offsetHeight - windowH;
-
-      if (totalScroll <= 0) {
-        // Fallback layout
-        cards.forEach((card, i) => {
-          setCardTransform(card, 0, i * 20, 1 - i * 0.02, 0, cards.length - i, 1);
-        });
+      if (typeof gsap === 'undefined') {
+        activeIndex = nextIndex;
+        layoutCards(false);
+        isBusy = false;
         return;
       }
 
-      // Progress from 0 (track top enters top of screen) to 1 (track bottom hits bottom)
-      const scrolled = -rect.top;
-      const progress = Math.min(1, Math.max(0, scrolled / totalScroll));
-
-      const cardHeight = cards[0].offsetHeight || 380;
-      const offset = 22;
-
-      if (progress < 0.32) {
-        // Phase 1: Card 0 (Dark Blue) is front
-        activeIndex = 0;
-        setCardTransform(cards[0], 0, 0, 1, 0, 5, 1);
-        setCardTransform(cards[1], 0, offset, 0.98, 0, 4, 0.96);
-        setCardTransform(cards[2], 0, offset * 2, 0.96, 0, 3, 0.92);
-      } else if (progress >= 0.32 && progress < 0.48) {
-        // Transition 0 -> 1: Card 0 drops vertically, Card 1 steps forward
-        const t = (progress - 0.32) / 0.16; // 0 to 1
-        activeIndex = t > 0.5 ? 1 : 0;
-
-        // Card 0 drops straight down vertically
-        const y0 = t * (cardHeight * 1.35);
-        const rot0 = t * -4;
-        const scale0 = 1 - t * 0.04;
-        const op0 = 1 - t * 0.45;
-        setCardTransform(cards[0], 0, y0, scale0, rot0, 5, op0);
-
-        // Card 1 steps up to slot 0
-        const y1 = offset * (1 - t);
-        const scale1 = 0.98 + 0.02 * t;
-        const op1 = 0.96 + 0.04 * t;
-        setCardTransform(cards[1], 0, y1, scale1, 0, 4, op1);
-
-        // Card 2 steps from slot 2 to slot 1
-        const y2 = offset * 2 - offset * t;
-        const scale2 = 0.96 + 0.02 * t;
-        const op2 = 0.92 + 0.04 * t;
-        setCardTransform(cards[2], 0, y2, scale2, 0, 3, op2);
-      } else if (progress >= 0.48 && progress < 0.68) {
-        // Phase 2: Card 1 (White) is front, Card 0 in back, Card 2 is mid
-        activeIndex = 1;
-        setCardTransform(cards[1], 0, 0, 1, 0, 5, 1);
-        setCardTransform(cards[2], 0, offset, 0.98, 0, 4, 0.96);
-        setCardTransform(cards[0], 0, offset * 2, 0.96, 0, 2, 0.7);
-      } else if (progress >= 0.68 && progress < 0.84) {
-        // Transition 1 -> 2: Card 1 drops vertically, Card 2 steps forward
-        const t = (progress - 0.68) / 0.16; // 0 to 1
-        activeIndex = t > 0.5 ? 2 : 1;
-
-        // Card 1 drops straight down vertically
-        const y1 = t * (cardHeight * 1.35);
-        const rot1 = t * -4;
-        const scale1 = 1 - t * 0.04;
-        const op1 = 1 - t * 0.45;
-        setCardTransform(cards[1], 0, y1, scale1, rot1, 5, op1);
-
-        // Card 2 steps forward to slot 0
-        const y2 = offset * (1 - t);
-        const scale2 = 0.98 + 0.02 * t;
-        const op2 = 0.96 + 0.04 * t;
-        setCardTransform(cards[2], 0, y2, scale2, 0, 4, op2);
-
-        // Card 0 remains in back
-        setCardTransform(cards[0], 0, offset * 2, 0.96, 0, 2, 0.6);
-      } else {
-        // Phase 3: Card 2 (Sky Blue) is front
-        activeIndex = 2;
-        setCardTransform(cards[2], 0, 0, 1, 0, 5, 1);
-        setCardTransform(cards[1], 0, offset * 2, 0.96, 0, 2, 0.6);
-        setCardTransform(cards[0], 0, offset * 2.5, 0.94, 0, 1, 0.5);
-      }
-
-      updateDots(activeIndex);
-    }
-
-    // Smooth scroll to card index
-    function scrollToCardIndex(index) {
-      isClickScrolling = true;
-      const rect = track.getBoundingClientRect();
-      const totalScroll = track.offsetHeight - window.innerHeight;
-      const targetP = index === 0 ? 0.12 : (index === 1 ? 0.55 : 0.92);
-      const targetY = window.scrollY + rect.top + totalScroll * targetP;
-
-      window.scrollTo({
-        top: targetY,
-        behavior: 'smooth'
+      gsap.to(frontCard, {
+        y: cardHeight * 1.25,
+        opacity: 0,
+        scale: 0.94,
+        duration: 0.48,
+        ease: 'power3.in',
+        onComplete: () => {
+          activeIndex = nextIndex;
+          layoutCards(true);
+          setTimeout(() => { isBusy = false; }, 200);
+        }
       });
 
-      activeIndex = index;
-      updateDots(activeIndex);
-
-      setTimeout(() => {
-        isClickScrolling = false;
-        onScroll();
-      }, 700);
+      cards.forEach((card, idx) => {
+        if (idx !== activeIndex) {
+          const currentSlot = (idx - activeIndex + cards.length) % cards.length;
+          const targetSlot = currentSlot - 1;
+          if (targetSlot >= 0) {
+            gsap.to(card, {
+              y: targetSlot * offset,
+              scale: 1 - targetSlot * 0.02,
+              opacity: targetSlot === 0 ? 1 : 0.95,
+              duration: 0.6,
+              ease: 'expo.out'
+            });
+          }
+        }
+      });
     }
 
-    // Dot navigation
-    dots.forEach((dot) => {
-      dot.addEventListener('click', () => {
-        const targetIdx = parseInt(dot.getAttribute('data-goto') || '0', 10);
-        scrollToCardIndex(targetIdx);
-      });
-    });
+    function goPrev() {
+      if (isBusy) return;
+      isBusy = true;
+      activeIndex = (activeIndex - 1 + cards.length) % cards.length;
+      layoutCards(true);
+      setTimeout(() => { isBusy = false; }, 500);
+    }
 
-    // Next / Prev button navigation
+    layoutCards(false);
+
     if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        const nextIdx = (activeIndex + 1) % cards.length;
-        scrollToCardIndex(nextIdx);
-      });
+      nextBtn.addEventListener('click', goNext);
     }
 
     if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        const prevIdx = (activeIndex - 1 + cards.length) % cards.length;
-        scrollToCardIndex(prevIdx);
+      prevBtn.addEventListener('click', goPrev);
+    }
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        if (isBusy) return;
+        const targetIdx = parseInt(dot.getAttribute('data-goto') || '0', 10);
+        if (targetIdx !== activeIndex) {
+          activeIndex = targetIdx;
+          layoutCards(true);
+        }
       });
+    });
+
+    let perspWheelCooldown = false;
+    deck.addEventListener('wheel', (e) => {
+      if (perspWheelCooldown || isBusy) return;
+      if (Math.abs(e.deltaY) > 18) {
+        perspWheelCooldown = true;
+        setTimeout(() => { perspWheelCooldown = false; }, 420);
+        if (e.deltaY > 0) {
+          goNext();
+        } else {
+          goPrev();
+        }
+      }
+    }, { passive: true });
+
+    if (track) {
+      window.addEventListener('scroll', () => {
+        const rect = track.getBoundingClientRect();
+        const winH = window.innerHeight;
+        if (rect.top <= 100 && rect.bottom >= winH * 0.6) {
+          const totalDist = track.offsetHeight - winH;
+          if (totalDist > 0) {
+            const progress = Math.min(1, Math.max(0, -rect.top / totalDist));
+            const step = Math.min(cards.length - 1, Math.floor(progress * cards.length));
+            if (step !== activeIndex && !isBusy) {
+              activeIndex = step;
+              layoutCards(true);
+            }
+          }
+        }
+      }, { passive: true });
     }
 
     // Touch / Pointer Drag on active card
@@ -634,18 +631,17 @@
     let isDragging = false;
 
     deck.addEventListener('pointerdown', (e) => {
-      if (e.button !== 0) return;
+      if (e.button !== 0 || isBusy) return;
       startY = e.clientY;
       isDragging = true;
       try { deck.setPointerCapture(e.pointerId); } catch(err) {}
     });
 
     deck.addEventListener('pointermove', (e) => {
-      if (!isDragging) return;
+      if (!isDragging || isBusy) return;
       const dy = e.clientY - startY;
       const frontCard = cards[activeIndex];
       if (frontCard && dy > 0) {
-        // Strictly vertical dragging downwards
         if (typeof gsap !== 'undefined') {
           gsap.set(frontCard, { y: dy, rotation: (dy / 45) * -1 });
         }
@@ -659,10 +655,10 @@
       const dy = e.clientY - startY;
       const cardHeight = cards[0].offsetHeight || 380;
 
-      if (dy > cardHeight * 0.25) {
-        scrollToCardIndex((activeIndex + 1) % cards.length);
+      if (dy > cardHeight * 0.22) {
+        goNext();
       } else {
-        onScroll();
+        layoutCards(true);
       }
     }
 
@@ -680,7 +676,7 @@
         themeWhiteDeckBtn.classList.add('stack__theme-btn--active');
         themeColorBlockBtn.classList.remove('stack__theme-btn--active');
       }
-      onScroll();
+      layoutCards(false);
     }
 
     function applyBrandColorBlock() {
@@ -691,18 +687,11 @@
         themeColorBlockBtn.classList.add('stack__theme-btn--active');
         themeWhiteDeckBtn.classList.remove('stack__theme-btn--active');
       }
-      onScroll();
+      layoutCards(false);
     }
 
     if (themeWhiteDeckBtn) themeWhiteDeckBtn.addEventListener('click', applyPristineWhite);
     if (themeColorBlockBtn) themeColorBlockBtn.addEventListener('click', applyBrandColorBlock);
-
-    // Scroll listener on window
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-
-    // Initial render
-    onScroll();
   }
 
   function initAllDecks() {

@@ -797,35 +797,28 @@ body {
   z-index: 2;
 }
 
-/* Header & Kicker Badge */
+/* Header & Kicker Badge (No Border Radius, Visible Title Styling) */
 .perspective-kicker-badge {
   display: inline-flex;
   align-items: center;
-  align-self: flex-start;
+  align-self: center;
   gap: 0.75rem;
-  padding: 0.45rem 1.15rem 0.45rem 0.55rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 44, 139, 0.12);
-  border-radius: 9999px;
-  box-shadow: 0 4px 16px rgba(0, 44, 139, 0.06);
-  margin-bottom: 1.75rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0.85rem;
 }
 
 .perspective-badge-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, #002c8b 0%, #001848 100%);
-  color: #ffffff;
+  display: inline-block;
+  color: #009ae0;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.78rem;
+  font-size: 1.1rem;
   font-weight: 800;
-  border-radius: 50%;
-  letter-spacing: -0.01em;
+  border-radius: 0;
+  letter-spacing: 0.04em;
 }
 
 .perspective-badge-dot {
@@ -844,11 +837,15 @@ body {
 
 .perspective-badge-text {
   font-family: 'Outfit', sans-serif;
-  font-size: 0.82rem;
+  font-size: 1.15rem;
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #002c8b;
+  border-radius: 0;
+  background: linear-gradient(135deg, #002c8b 0%, #009ae0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Grid Layout */
@@ -1219,9 +1216,18 @@ body {
   transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.perspective-section.is-visible .animate-on-scroll {
-  opacity: 1;
-  transform: translateY(0);
+.perspective-section.is-visible .animate-on-scroll,
+.is-visible .animate-on-scroll,
+.section-head.animate-on-scroll,
+.methodology-section .animate-on-scroll,
+.why-ethyra-head.animate-on-scroll,
+.why-principle-card.animate-on-scroll,
+.who-we-work-section .animate-on-scroll,
+.final-cta-section .animate-on-scroll,
+.final-cta-card {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  visibility: visible !important;
 }
 
 .perspective-section.is-visible .animate-on-scroll[data-anim="text-reveal"] .line-1 {
@@ -1292,14 +1298,19 @@ body {
 /* ==========================================================================
    Section: Core Advisory Services (Deep Obsidian Luxury Theme)
    ========================================================================== */
+/* ==========================================================================
+   Section: Core Advisory Services (Rich Sapphire Theme + 3D Flip on Hover)
+   Slightly brighter luminous navy background, smooth 3D flip on hover
+   ========================================================================== */
 .services-section {
   position: relative;
-  background: radial-gradient(circle at 50% 10%, #08162f 0%, #040a16 75%);
-  padding: 6.5rem 2rem 7rem 2rem;
+  background: radial-gradient(circle at 50% 15%, #102a5c 0%, #0a1e46 55%, #061530 100%);
+  padding: 5.5rem 2rem 6.5rem 2rem;
   width: 100%;
   overflow: hidden;
-  border-top: 1px solid rgba(56, 189, 248, 0.12);
-  border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+  border-top: 1px solid rgba(56, 189, 248, 0.2);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  scroll-margin-top: 85px;
 }
 
 .services-section::before {
@@ -1311,7 +1322,7 @@ body {
   width: 100%;
   max-width: 1400px;
   height: 100%;
-  background: radial-gradient(circle at 50% 20%, rgba(0, 154, 224, 0.08) 0%, transparent 65%);
+  background: radial-gradient(circle at 50% 25%, rgba(0, 154, 224, 0.22) 0%, rgba(0, 44, 139, 0.12) 45%, transparent 75%);
   pointer-events: none;
 }
 
@@ -1325,7 +1336,7 @@ body {
 .section-head {
   text-align: center;
   max-width: 760px;
-  margin: 0 auto 3.5rem auto;
+  margin: 0 auto 3.25rem auto;
 }
 
 .section-kicker {
@@ -1350,12 +1361,12 @@ body {
 
 .section-subtitle {
   font-size: 1.05rem;
-  color: #94a3b8;
+  color: #cbd5e1;
   line-height: 1.65;
 }
 
 /* ==========================================================================
-   3D Flip Service Cards (Exact Match to Reference Design)
+   3D Flip Service Cards on Hover (Exact Match)
    ========================================================================== */
 .services-grid {
   display: grid;
@@ -1371,58 +1382,112 @@ body {
   }
 }
 
-.flip-card {
-  background-color: transparent;
-  perspective: 1400px;
-  min-height: 520px;
-  height: 100%;
+.service-flip-card {
+  position: relative;
+  perspective: 1200px;
+  border-radius: 16px;
+  min-height: 380px;
   cursor: pointer;
 }
 
-.flip-card-inner {
+.service-flip-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 520px;
-  text-align: left;
-  transition: transform 0.8s cubic-bezier(0.2, 0.85, 0.3, 1);
+  min-height: 380px;
+  border-radius: 16px;
   transform-style: preserve-3d;
-  border-radius: 14px;
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
-/* Hover or active flipped state */
-.flip-card:hover .flip-card-inner,
-.flip-card.is-flipped .flip-card-inner {
+.service-flip-card:hover .service-flip-inner,
+.service-flip-card:focus-within .service-flip-inner {
   transform: rotateY(180deg);
 }
 
-/* Front and Back Face Base Styles */
-.flip-card-front,
-.flip-card-back {
+.service-face {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   display: flex;
   flex-direction: column;
 }
 
-/* ================= FRONT FACE ================= */
-.flip-card-front {
-  background: radial-gradient(circle at 86% 14%, rgba(245, 158, 11, 0.22) 0%, rgba(0, 154, 224, 0.08) 42%, transparent 70%), #061124;
-  border: 1px solid rgba(56, 189, 248, 0.18);
-  padding: 2.5rem 2.25rem 2rem 2.25rem;
-  box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.7);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+.service-face--front {
+  background: #0a1c3d;
+  border: 1.5px solid rgba(56, 189, 248, 0.25);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.55);
+  transform: rotateY(0deg);
+  z-index: 2;
+  padding: 2.25rem 2rem 1.85rem;
 }
 
-.flip-card:hover .flip-card-front {
-  border-color: rgba(0, 229, 255, 0.38);
-  box-shadow: 0 25px 50px -10px rgba(0, 154, 224, 0.25);
+.service-face--back {
+  background: #071733;
+  border: 1.5px solid rgba(0, 229, 255, 0.7);
+  box-shadow: 0 24px 60px -12px rgba(0, 154, 224, 0.5), 0 0 30px rgba(0, 229, 255, 0.28);
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+
+.service-back-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.96) contrast(1.08) saturate(1.18);
+  transform: scale(1.02);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  z-index: 1;
+}
+
+.service-flip-card:hover .service-back-bg {
+  transform: scale(1.08);
+  filter: brightness(1.02) contrast(1.1) saturate(1.22);
+}
+
+.service-back-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(3, 12, 28, 0.52) 0%,
+    rgba(3, 12, 28, 0.68) 55%,
+    rgba(2, 8, 20, 0.90) 100%
+  );
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  z-index: 2;
+}
+
+.service-back-content {
+  position: relative;
+  z-index: 3;
+  padding: 2.25rem 2rem 1.85rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.service-back-content .card-front-title {
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 20px rgba(0, 154, 224, 0.45);
+}
+
+.service-back-content .card-front-subhead {
+  color: #38bdf8;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+  font-weight: 600;
+}
+
+.service-back-content .card-front-desc {
+  color: #f1f5f9;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+  font-weight: 450;
 }
 
 /* Large Translucent Watermark Number */
@@ -1438,41 +1503,53 @@ body {
   pointer-events: none;
   user-select: none;
   letter-spacing: -0.04em;
+  transition: color 0.35s ease, transform 0.4s ease;
 }
 
-/* Category Badge "01 /" - Removed per user request */
-.card-category-tag {
-  display: none !important;
+.card-watermark--back {
+  color: rgba(56, 189, 248, 0.16);
+}
+
+.service-flip-card:hover .card-watermark {
+  color: rgba(56, 189, 248, 0.18);
+  transform: scale(1.05);
 }
 
 /* Main Front Title */
 .card-front-title {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.85rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 700;
   color: #ffffff;
   line-height: 1.25;
-  margin-bottom: 1.35rem;
+  margin-bottom: 0.85rem;
   letter-spacing: -0.01em;
+  transition: color 0.3s ease;
+}
+
+.service-flip-card:hover .card-front-title {
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
 }
 
 /* Front Subhead / Catchphrase */
 .card-front-subhead {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: #cbd5e1;
+  color: #38bdf8;
   line-height: 1.45;
-  margin-bottom: 1.35rem;
+  margin-bottom: 1.15rem;
+  transition: color 0.3s ease;
 }
 
 /* Front Description */
 .card-front-desc {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.94rem;
-  color: #8899ac;
-  line-height: 1.68;
-  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
   flex-grow: 1;
 }
 
@@ -1482,7 +1559,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   margin-top: auto;
-  padding-top: 1.25rem;
+  padding-top: 0.75rem;
   width: 100%;
 }
 
@@ -1491,65 +1568,13 @@ body {
   height: 2.5px;
   border-radius: 999px;
   background: linear-gradient(90deg, #00d2d3 50%, #f59e0b 50%);
+  transition: width 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* ================= BACK FACE ================= */
-.flip-card-back {
-  transform: rotateY(180deg);
-  background-size: cover;
-  background-position: center top;
-  border: 1px solid rgba(0, 229, 255, 0.3);
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8);
-}
-
-.flip-card-back-scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(4, 10, 24, 0.12) 0%, rgba(4, 10, 24, 0.35) 38%, rgba(4, 10, 24, 0.88) 68%, rgba(3, 8, 20, 0.98) 95%);
-  pointer-events: none;
-}
-
-.flip-card-back-content {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  padding: 2.5rem 2.25rem 2.5rem 2.25rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.back-category-tag {
-  margin-top: auto;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.84rem;
-  font-weight: 700;
-  color: #00e5ff;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  margin-bottom: 0.85rem;
-  display: block;
-}
-
-.back-highlight-quote {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.45rem;
-  font-weight: 600;
-  color: #ffffff;
-  line-height: 1.35;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
-}
-
-.card-footer-row.back-footer {
-  justify-content: flex-end;
-  padding-top: 0.35rem;
-  width: 100%;
-}
-
-.flip-back-btn {
-  background: rgba(0, 229, 255, 0.08);
-  border-color: rgba(0, 229, 255, 0.4);
+.service-flip-card:hover .accent-color-bar {
+  width: 60px;
+  background: linear-gradient(90deg, #00e5ff 0%, #38bdf8 100%);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
 }
 
 /* Extra note below services */

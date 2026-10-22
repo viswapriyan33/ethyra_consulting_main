@@ -52,7 +52,7 @@
 
     // ------------------------------------------------ Curved Leaf Physics
     const N = 18;          // 18 strips for realistic organic paper curvature
-    const SPAN = 0.466;    // Gutter to outer page edge on 1760x1240 canvas (820/1760)
+    const SPAN = 0.50;     // Full-bleed gutter to outer page edge (820/1640)
     const BETA = 0.60;     // Peak curl radians of bending arc
     let idx = 0;
     let turn = null;       // { dir: 'next'|'prev', from, to, t }
