@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="css/dropping-cards.css?v=2.0">
   <link rel="stylesheet" href="css/svc-scroll-hero.css?v=1.0">
   <link rel="stylesheet" href="css/services-page.css?v=1.0">
+  <link rel="stylesheet" href="css/faq-accordion.css">
 </head>
 <body>
 
@@ -502,32 +503,90 @@
     </section>
 
     <!-- ==========================================================================
-         5. Engagement model / FAQ (answers derived from the copy, or placeholders)
+         5. Services Main FAQ Section
          ========================================================================== -->
     <section id="svc-faq" class="svc-faq svc-reveal" aria-labelledby="svc-faq-title">
       <div class="svc-container svc-faq-container">
         <div class="svc-head">
-          <span class="svc-kicker" data-svc-item style="--svc-i:0">Engagement</span>
-          <h2 id="svc-faq-title" class="svc-title" data-svc-item style="--svc-i:1">Working with Ethyra</h2>
+          <span class="svc-kicker" data-svc-item style="--svc-i:0">Frequently Asked Questions</span>
+          <h2 id="svc-faq-title" class="svc-title" data-svc-item style="--svc-i:1">Good questions. Clear answers.</h2>
         </div>
 
-        <div class="svc-accordion" data-svc-item style="--svc-i:2">
-          <details class="svc-details" name="svc-faq">
-            <summary class="svc-summary"><span>Who does Ethyra work with?</span><span class="svc-summary-icon" aria-hidden="true"></span></summary>
-            <div class="svc-details-body"><p>Ethyra is a social impact advisory firm working with CSR foundations, institutions and development organisations.</p></div>
+        <div class="faq-accordion" data-svc-item style="--svc-i:2">
+          <!-- 1. Who does Ethyra work with? -->
+          <details class="faq-details" name="svc-faq">
+            <summary class="faq-summary">
+              <span>Who does Ethyra work with?</span>
+              <span class="faq-summary-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-details-body">
+              <p>We work with corporates, CSR teams, NGOs, and development organisations looking to design stronger programmes, understand progress, and assess social impact.</p>
+            </div>
           </details>
-          <details class="svc-details" name="svc-faq">
-            <summary class="svc-summary"><span>How do the services fit together?</span><span class="svc-summary-icon" aria-hidden="true"></span></summary>
-            <div class="svc-details-body"><p>Programme design starts with the right problem. Monitoring and evaluation tracks progress and verifies attribution. Social impact assessment looks beyond what was delivered to understand what changed. Impact advisory and dashboards turn that into a strategic narrative and executive reporting.</p></div>
+
+          <!-- 2. How do we know which service we need? -->
+          <details class="faq-details" name="svc-faq">
+            <summary class="faq-summary">
+              <span>How do we know which service we need?</span>
+              <span class="faq-summary-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-details-body">
+              <p>Start with your question. Need to define the right intervention? Choose CSR Programme Design. Need to track progress? Choose MEL. Want to understand what changed? Choose Social Impact Assessment.</p>
+            </div>
           </details>
-          <details class="svc-details" name="svc-faq">
-            <summary class="svc-summary"><span>How does an engagement begin?</span><span class="svc-summary-icon" aria-hidden="true"></span></summary>
-            <div class="svc-details-body"><p class="svc-placeholder">[PLACEHOLDER: describe how an engagement begins]</p></div>
+
+          <!-- 3. Can Ethyra conduct needs, baseline, midline, and endline assessments? -->
+          <details class="faq-details" name="svc-faq">
+            <summary class="faq-summary">
+              <span>Can Ethyra conduct needs, baseline, midline, and endline assessments?</span>
+              <span class="faq-summary-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-details-body">
+              <p>Yes. Needs Assessments help identify community priorities, while baseline, midline, and endline assessments help establish starting conditions and track changes over time.</p>
+            </div>
           </details>
-          <details class="svc-details" name="svc-faq">
-            <summary class="svc-summary"><span>What does a typical timeline look like?</span><span class="svc-summary-icon" aria-hidden="true"></span></summary>
-            <div class="svc-details-body"><p class="svc-placeholder">[PLACEHOLDER: add typical engagement timeline]</p></div>
+
+          <!-- 4. Does Ethyra work with organisations on existing programmes? -->
+          <details class="faq-details" name="svc-faq">
+            <summary class="faq-summary">
+              <span>Does Ethyra work with organisations on existing programmes?</span>
+              <span class="faq-summary-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-details-body">
+              <p>Yes. We can explore ways to strengthen programme design, improve monitoring systems, assess progress, or understand outcomes.</p>
+            </div>
           </details>
+
+          <!-- 5. How is an engagement scoped? -->
+          <details class="faq-details" name="svc-faq">
+            <summary class="faq-summary">
+              <span>How is an engagement scoped?</span>
+              <span class="faq-summary-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-details-body">
+              <p>We consider your objectives, geography, target population, available data, timeline, and expected deliverables before defining the scope.</p>
+            </div>
+          </details>
+
+          <!-- 6. How can we begin working with Ethyra? -->
+          <details class="faq-details" name="svc-faq">
+            <summary class="faq-summary">
+              <span>How can we begin working with Ethyra?</span>
+              <span class="faq-summary-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-details-body">
+              <p>Tell us about your organisation, the challenge you're facing, and the support you're looking for. We'll discuss the next steps.</p>
+            </div>
+          </details>
+        </div>
+
+        <!-- Footer note & Contact Link -->
+        <div class="svc-faq-footer">
+          <p class="svc-faq-footer-text">Still have a question? <span>Let's talk about it.</span></p>
+          <a href="contact-us.html" class="svc-faq-footer-btn">
+            <span>Contact Ethyra</span>
+            <span class="svc-faq-arrow">↗</span>
+          </a>
         </div>
       </div>
     </section>
