@@ -8,14 +8,211 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/clean_ethyra_logo.png">
+  <link rel="preload" as="image" href="assets/boy-push.webp?v=3.0" type="image/webp">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/landing-page.css?v=9.0">
   <link rel="stylesheet" href="css/magnetic-button.css">
   <link rel="stylesheet" href="css/dropping-cards.css?v=3.0">
   <link rel="stylesheet" href="css/storybook-engine.css?v=2.0">
+  <link rel="stylesheet" href="css/boy-curtain-intro.css?v=4.0">
+
+  <!-- Zero-Flicker Intro Suppression Check (Preserves transition on reload) -->
+  <script>
+    try {
+      const navEntry = (window.performance && performance.getEntriesByType) ? performance.getEntriesByType('navigation')[0] : null;
+      const isReload = (navEntry && navEntry.type === 'reload') ||
+                       (window.performance && window.performance.navigation && window.performance.navigation.type === 1);
+      const isHashJump = window.location.hash && window.location.hash.length > 1;
+
+      if (isReload && !isHashJump) {
+        sessionStorage.removeItem('ethyra_curtain_intro_shown');
+        document.documentElement.classList.remove('intro-already-shown');
+      } else if (sessionStorage.getItem('ethyra_curtain_intro_shown') || isHashJump) {
+        document.documentElement.classList.add('intro-already-shown');
+      }
+    } catch(e) {}
+  </script>
+
+  <!-- Critical Boy Curtain Intro Styles (Zero-Flicker) -->
+  <style>
+    html.intro-already-shown #boyIntroOverlay,
+    html.intro-already-shown .boy-intro-overlay {
+      display: none !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+    }
+    .boy-intro-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 99999999;
+      pointer-events: auto;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+      background: transparent;
+    }
+    .boy-curtain-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000000;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+      box-shadow: -16px 0 45px rgba(0, 0, 0, 0.9), -2px 0 0 rgba(255, 255, 255, 0.22);
+    }
+    .boy-curtain-edge-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.5) 45%, rgba(0, 154, 224, 0.8) 50%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.05) 100%);
+      pointer-events: none;
+    }
+    .boy-character-anchor {
+      position: absolute;
+      bottom: 0;
+      right: 100%;
+      pointer-events: none;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      z-index: 10;
+      overflow: visible;
+      will-change: transform;
+    }
+    .boy-character-sprite {
+      height: clamp(260px, 46vh, 500px);
+      width: auto;
+      display: block;
+      margin-right: -10px;
+      margin-bottom: 0;
+      user-select: none;
+      -webkit-user-drag: none;
+      filter: drop-shadow(-10px 14px 28px rgba(0, 0, 0, 0.45));
+    }
+    .curtain-welcome-wrap {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      pointer-events: none;
+      user-select: none;
+      text-align: center;
+      z-index: 5;
+      width: 90%;
+      max-width: 760px;
+    }
+    .curtain-welcome-sub {
+      font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: clamp(18px, 2.3vw, 28px);
+      font-weight: 700;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.95);
+      margin-left: 0.38em;
+      text-shadow: 0 2px 24px rgba(0, 154, 224, 0.45);
+    }
+    .curtain-welcome-logo {
+      width: 100%;
+      max-width: clamp(360px, 42vw, 580px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 6px 32px rgba(0, 154, 224, 0.4));
+    }
+    .boy-intro-controls {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .boy-intro-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: rgba(255, 255, 255, 0.9);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 8px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+    .boy-intro-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.45);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+    .boy-intro-btn svg {
+      transition: transform 0.2s ease;
+    }
+    .boy-intro-btn:hover svg {
+      transform: translateX(2px);
+    }
+    @media (max-width: 768px) {
+      .boy-character-sprite { height: clamp(240px, 44vh, 420px); }
+      .boy-intro-controls { top: 16px; right: 16px; }
+    }
+  </style>
+
+  <!-- GSAP 3.12.5 (High Performance Animation Engine) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 </head>
 <body>
+
+  <!-- ==========================================================================
+       Boy Push Curtain Intro Overlay (Award-Winning Character Reveal)
+       ========================================================================== -->
+  <div class="boy-intro-overlay" id="boyIntroOverlay">
+    <div class="boy-curtain-panel" id="boyCurtain">
+      <div class="boy-curtain-edge-line" aria-hidden="true"></div>
+      
+      <!-- Welcome Greeting on Black Curtain -->
+      <div class="curtain-welcome-wrap" id="curtainWelcome">
+        <div class="curtain-welcome-sub">WELCOME TO</div>
+        <img src="assets/clean_ethyra_logo.png" class="curtain-welcome-logo" alt="Ethyra Logo">
+      </div>
+
+      <!-- Straining Boy Character pinned to left edge of curtain -->
+      <div class="boy-character-anchor" id="boyAnchor">
+        <img src="assets/boy-push.webp?v=4.0" class="boy-character-sprite" id="boySprite" alt="Character pushing curtain" loading="eager" fetchpriority="high">
+      </div>
+
+      <!-- Top Controls -->
+      <div class="boy-intro-controls">
+        <button type="button" class="boy-intro-btn" id="boySkipBtn" aria-label="Skip Intro">
+          <span>Skip</span>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="2" y1="8" x2="14" y2="8"></line>
+            <polyline points="9 3 14 8 9 13"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Ambient Blueprint Grid & Glow Canvas -->
   <div class="page-bg-canvas" aria-hidden="true">
@@ -1173,11 +1370,11 @@
   <!-- Scripts -->
   <script src="js/landing-page.js?v=8.0"></script>
   <script src="js/magnetic-button.js"></script>
-  <!-- GSAP 3.12.5 from jsDelivr -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="js/dropping-cards.js?v=2.0"></script>
   <!-- Storybook & Draggable Optical Search Glass Engine -->
   <script src="js/storybook-engine.js"></script>
+  <!-- Character Curtain Intro Engine -->
+  <script src="js/boy-curtain-intro.js?v=10.0"></script>
 </body>
 </html>
 
