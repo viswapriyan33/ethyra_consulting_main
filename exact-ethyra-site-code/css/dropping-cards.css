@@ -663,7 +663,7 @@
   position: absolute;
   inset: 0;
   border-radius: var(--stack-radius);
-  padding: calc(var(--stack-card-w) * .042);
+  padding: calc(var(--stack-card-w) * .045);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -673,6 +673,34 @@
   overflow: hidden;
   border: 1px solid rgba(0, 44, 139, 0.08);
   transition: box-shadow .3s ease;
+}
+
+.perspective-card-stack .stack__top {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-bottom: auto !important;
+}
+
+.perspective-card-stack .stack__img-wrap {
+  width: calc(var(--stack-card-w) * 0.44) !important;
+  aspect-ratio: 16 / 9 !important;
+  border-radius: calc(var(--stack-radius) * 0.55) !important;
+  box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.35) !important;
+  overflow: hidden !important;
+}
+
+.perspective-card-stack .stack__bottom {
+  margin-top: auto !important;
+  padding-top: calc(var(--stack-card-w) * 0.02) !important;
+}
+
+.perspective-card-stack .stack__desc {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+  font-size: clamp(0.96rem, calc(var(--stack-card-w) * 0.035), 1.16rem) !important;
+  line-height: 1.62 !important;
+  font-weight: 500 !important;
+  max-width: 98% !important;
 }
 
 /* Card 1: Dark Blue */
@@ -2423,9 +2451,9 @@
   border-radius: 24px;
   border: 1px solid rgba(226, 232, 240, 0.9);
   box-shadow: 0 16px 45px -12px rgba(0, 44, 139, 0.08);
-  padding: 2.5rem 2.5rem;
+  padding: 2.25rem 2.5rem;
   display: grid;
-  grid-template-columns: 1fr 1.08fr;
+  grid-template-columns: 1fr 1.15fr;
   gap: 3.5rem;
   align-items: center;
   position: relative;
@@ -2441,7 +2469,7 @@
 
 /* Alternating Reverse Row (Image Right, Content Left) */
 .principle-split-row--reverse {
-  grid-template-columns: 1.08fr 1fr;
+  grid-template-columns: 1.15fr 1fr;
 }
 
 .principle-split-row--reverse .principle-split-media {
@@ -2460,7 +2488,8 @@
   box-shadow: 0 12px 30px -8px rgba(0, 44, 139, 0.15);
   border: 1px solid rgba(226, 232, 240, 0.9);
   background: #f1f5f9;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
+  max-height: 320px;
 }
 
 .principle-split-media img {
@@ -2536,10 +2565,10 @@
 
 .principle-split-desc {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 1.05rem;
-  line-height: 1.68;
+  font-size: 1.15rem;
+  line-height: 1.75;
   color: #334155;
-  margin-bottom: 1.35rem;
+  margin-bottom: 0;
 }
 
 /* Bullet Points matching Image 2 */

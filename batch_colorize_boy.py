@@ -1,5 +1,6 @@
 import os
 import glob
+# pyrefly: ignore[missing-import]
 import cv2
 import numpy as np
 from PIL import Image
