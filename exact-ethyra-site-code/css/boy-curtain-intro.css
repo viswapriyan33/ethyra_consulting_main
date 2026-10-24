@@ -3,6 +3,15 @@
    Inspired by Huy Phan's award-winning character push curtain reveal.
    ========================================================================== */
 
+/* Zero-flicker suppression when intro was already viewed */
+html.intro-already-shown .boy-intro-overlay,
+.boy-intro-overlay.intro-hidden {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
 /* Fullscreen Overlay Container */
 .boy-intro-overlay {
   position: fixed;
@@ -163,40 +172,6 @@
   transform: translateX(2px);
 }
 
-/* Site Header Replay Button */
-.vs-replay-intro-btn {
-  background: rgba(0, 44, 139, 0.05);
-  border: 1px solid rgba(0, 44, 139, 0.15);
-  color: var(--navy, #002c8b);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  padding: 8px 16px;
-  border-radius: 999px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.vs-replay-intro-btn:hover {
-  background: var(--navy, #002c8b);
-  color: #ffffff;
-  border-color: var(--navy, #002c8b);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0, 44, 139, 0.25);
-}
-
-.vs-replay-intro-btn svg {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.vs-replay-intro-btn:hover svg {
-  transform: rotate(-180deg);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .boy-character-sprite {
@@ -205,12 +180,5 @@
   .boy-intro-controls {
     top: 16px;
     right: 16px;
-  }
-  .vs-replay-intro-btn span {
-    display: none;
-  }
-  .vs-replay-intro-btn {
-    padding: 8px;
-    border-radius: 50%;
   }
 }

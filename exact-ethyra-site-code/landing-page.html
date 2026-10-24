@@ -15,10 +15,34 @@
   <link rel="stylesheet" href="css/magnetic-button.css">
   <link rel="stylesheet" href="css/dropping-cards.css?v=3.0">
   <link rel="stylesheet" href="css/storybook-engine.css?v=2.0">
-  <link rel="stylesheet" href="css/boy-curtain-intro.css?v=3.0">
+  <link rel="stylesheet" href="css/boy-curtain-intro.css?v=4.0">
+
+  <!-- Zero-Flicker Intro Suppression Check (Preserves transition on reload) -->
+  <script>
+    try {
+      const navEntry = (window.performance && performance.getEntriesByType) ? performance.getEntriesByType('navigation')[0] : null;
+      const isReload = (navEntry && navEntry.type === 'reload') ||
+                       (window.performance && window.performance.navigation && window.performance.navigation.type === 1);
+      const isHashJump = window.location.hash && window.location.hash.length > 1;
+
+      if (isReload && !isHashJump) {
+        sessionStorage.removeItem('ethyra_curtain_intro_shown');
+        document.documentElement.classList.remove('intro-already-shown');
+      } else if (sessionStorage.getItem('ethyra_curtain_intro_shown') || isHashJump) {
+        document.documentElement.classList.add('intro-already-shown');
+      }
+    } catch(e) {}
+  </script>
 
   <!-- Critical Boy Curtain Intro Styles (Zero-Flicker) -->
   <style>
+    html.intro-already-shown #boyIntroOverlay,
+    html.intro-already-shown .boy-intro-overlay {
+      display: none !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+    }
     .boy-intro-overlay {
       position: fixed;
       inset: 0;
@@ -148,40 +172,9 @@
     .boy-intro-btn:hover svg {
       transform: translateX(2px);
     }
-    .vs-replay-intro-btn {
-      background: rgba(0, 44, 139, 0.05);
-      border: 1px solid rgba(0, 44, 139, 0.15);
-      color: #002c8b;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      padding: 8px 16px;
-      border-radius: 999px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .vs-replay-intro-btn:hover {
-      background: #002c8b;
-      color: #ffffff;
-      border-color: #002c8b;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(0, 44, 139, 0.25);
-    }
-    .vs-replay-intro-btn svg {
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .vs-replay-intro-btn:hover svg {
-      transform: rotate(-180deg);
-    }
     @media (max-width: 768px) {
       .boy-character-sprite { height: clamp(240px, 44vh, 420px); }
       .boy-intro-controls { top: 16px; right: 16px; }
-      .vs-replay-intro-btn span { display: none; }
-      .vs-replay-intro-btn { padding: 8px; border-radius: 50%; }
     }
   </style>
 
@@ -246,13 +239,6 @@
       </nav>
 
       <div class="header-actions">
-        <button type="button" class="vs-replay-intro-btn js-replay-intro" id="replayIntroBtn" onclick="window.replayBoyIntro && window.replayBoyIntro()" title="Replay Boy Push Intro">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1 4 1 10 7 10"></polyline>
-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-          </svg>
-          <span>Replay Intro</span>
-        </button>
         <a href="contact-us.html" class="vs-magnetic-button" aria-label="Get in Touch">
           Get in Touch
           <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h9M8.5 4 12.5 8l-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>

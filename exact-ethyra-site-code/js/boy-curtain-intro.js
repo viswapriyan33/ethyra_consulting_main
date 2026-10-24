@@ -1,12 +1,55 @@
 /**
  * ETHYRA CONSULTING SERVICES — BOY PUSH CURTAIN INTRO ENGINE
  * Character push curtain reveal powered by GSAP.
+ * Configured for a single-time 7.0s landing page reveal.
  */
 
 (function () {
   'use strict';
 
-  console.log('[BoyCurtainIntro] Script loaded');
+  // Detect if user refreshed the landing page
+  let isReload = false;
+  try {
+    const navEntry = (window.performance && performance.getEntriesByType) ? performance.getEntriesByType('navigation')[0] : null;
+    isReload = (navEntry && navEntry.type === 'reload') ||
+               (window.performance && window.performance.navigation && window.performance.navigation.type === 1);
+  } catch (e) {}
+
+  const isHashDeepLink = !!(window.location.hash && window.location.hash.length > 1);
+
+  if (isReload && !isHashDeepLink) {
+    console.log('[BoyCurtainIntro] Page refresh on landing page detected: triggering 7s transition.');
+    try {
+      sessionStorage.removeItem('ethyra_curtain_intro_shown');
+    } catch (e) {}
+    document.documentElement.classList.remove('intro-already-shown');
+  }
+
+  // Check if intro has already been displayed this session or if direct deep-link/hash navigation
+  let alreadyShown = false;
+  try {
+    alreadyShown = sessionStorage.getItem('ethyra_curtain_intro_shown') === 'true' || isHashDeepLink;
+  } catch (e) {}
+
+  if (alreadyShown) {
+    console.log('[BoyCurtainIntro] Intro suppressed: already viewed or deep-linked to section.');
+    document.documentElement.classList.add('intro-already-shown');
+    const overlay = document.getElementById('boyIntroOverlay');
+    if (overlay) {
+      overlay.style.display = 'none';
+      overlay.style.pointerEvents = 'none';
+      overlay.remove();
+    }
+    document.body.style.overflow = '';
+    return;
+  }
+
+  // Mark as shown immediately so any reload or internal page change won't trigger it again
+  try {
+    sessionStorage.setItem('ethyra_curtain_intro_shown', 'true');
+  } catch (e) {}
+
+  console.log('[BoyCurtainIntro] First landing detected. Initializing 7.0s reveal.');
 
   let introTimeline = null;
   let audioCtx = null;
@@ -79,26 +122,31 @@
     introTimeline = gsap.timeline({
       paused: true,
       onComplete: () => {
-        console.log('[BoyCurtainIntro] Push sequence complete, fading out overlay');
+        console.log('[BoyCurtainIntro] 7.0s push sequence complete, fading out overlay');
+        try {
+          sessionStorage.setItem('ethyra_curtain_intro_shown', 'true');
+        } catch (e) {}
         gsap.to(overlay, {
           opacity: 0,
-          duration: 0.45,
+          duration: 0.35,
           ease: 'power2.out',
           onComplete: () => {
             overlay.style.display = 'none';
             overlay.style.pointerEvents = 'none';
+            overlay.remove();
             document.body.style.overflow = '';
           }
         });
       }
     });
 
-    // Cinematic 10-Second Physical Push Choreography (Total duration = 10.0s):
-    // 0.0s - 0.4s (0.4s): Stance setup & initial anticipation
-    // 0.4s - 3.2s (2.8s): Initial drive — breaks inertia, pushes into first quadrant (x: 28%)
-    // 3.2s - 4.4s (1.2s): Heavy friction phase — digging in with sustained exertion (x: 38%)
-    // 4.4s - 7.8s (3.4s): Grand center sweep — smoothly unveiling the 3D hero & headline (x: 78%)
-    // 7.8s - 10.0s (2.2s): Mighty final surge — smoothly accelerates completely off-screen (totalDist)
+    // Precision 7-Second Physical Push Choreography (Total duration = 7.0s):
+    // 0.0s - 0.3s (0.3s): Stance setup & initial anticipation
+    // 0.3s - 2.2s (1.9s): Initial drive — breaks inertia, pushes into first quadrant (x: 28%)
+    // 2.2s - 3.2s (1.0s): Heavy friction phase — digging in with sustained exertion (x: 38%)
+    // 3.2s - 5.3s (2.1s): Grand center sweep — smoothly unveiling the 3D hero & headline (x: 78%)
+    // 5.3s - 7.0s (1.7s): Mighty final surge — smoothly accelerates completely off-screen (totalDist)
+    // Sum = 0.3 + 1.9 + 1.0 + 2.1 + 1.7 = 7.0 seconds.
     introTimeline
       .set(curtain, { x: 0 });
 
@@ -107,11 +155,11 @@
     }
 
     introTimeline
-      .to({}, { duration: 0.4 })
+      .to({}, { duration: 0.3 })
       .call(() => playPushSwoosh(0.12))
       .to(curtain, {
         x: screenW * 0.28,
-        duration: 2.8,
+        duration: 1.9,
         ease: 'power1.inOut'
       });
 
@@ -119,19 +167,19 @@
       .call(() => playPushSwoosh(0.16))
       .to(curtain, {
         x: screenW * 0.38,
-        duration: 1.2,
+        duration: 1.0,
         ease: 'sine.inOut'
       })
       .call(() => playPushSwoosh(0.20))
       .to(curtain, {
         x: screenW * 0.78,
-        duration: 3.4,
+        duration: 2.1,
         ease: 'power1.inOut'
       })
       .call(() => playPushSwoosh(0.24))
       .to(curtain, {
         x: totalDist,
-        duration: 2.2,
+        duration: 1.7,
         ease: 'power2.inOut'
       });
 
@@ -145,7 +193,7 @@
       return;
     }
 
-    console.log('[BoyCurtainIntro] Starting intro sequence');
+    console.log('[BoyCurtainIntro] Starting 7-second intro sequence');
 
     if (introTimeline) {
       introTimeline.kill();
@@ -183,6 +231,10 @@
 
   function skipIntro() {
     console.log('[BoyCurtainIntro] Skipping intro');
+    try {
+      sessionStorage.setItem('ethyra_curtain_intro_shown', 'true');
+    } catch (e) {}
+
     if (introTimeline) {
       introTimeline.kill();
     }
@@ -206,48 +258,20 @@
         onComplete: () => {
           overlay.style.display = 'none';
           overlay.style.pointerEvents = 'none';
+          overlay.remove();
           document.body.style.overflow = '';
         }
       });
     } else {
       overlay.style.display = 'none';
       overlay.style.pointerEvents = 'none';
+      overlay.remove();
       document.body.style.overflow = '';
     }
   }
 
-  function replayIntro() {
-    console.log('[BoyCurtainIntro] Replaying intro');
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    startIntro();
-  }
-
-  // Immediately expose replay, skip, and scrub APIs on window
-  window.replayBoyIntro = replayIntro;
+  // Expose skip API on window
   window.skipBoyIntro = skipIntro;
-  window.setBoyCurtainProgress = function (p) {
-    console.log('[BoyCurtainIntro] Scrubbing progress to:', p);
-    const { overlay, curtain, welcome } = getElements();
-    if (!overlay || !curtain) return;
-    if (introTimeline) {
-      introTimeline.kill();
-    }
-    if (typeof gsap !== 'undefined') {
-      gsap.killTweensOf(overlay);
-      gsap.killTweensOf(curtain);
-      if (welcome) gsap.killTweensOf(welcome);
-      gsap.set(overlay, { opacity: 1, display: 'block' });
-    } else {
-      overlay.style.display = 'block';
-      overlay.style.opacity = '1';
-    }
-    overlay.style.pointerEvents = 'auto';
-    const tl = buildTimeline();
-    if (tl) {
-      tl.pause();
-      tl.progress(p);
-    }
-  };
 
   function initIntro() {
     console.log('[BoyCurtainIntro] Initializing DOM listeners');
@@ -259,14 +283,6 @@
         skipIntro();
       });
     }
-
-    // Attach to any replay buttons on the page
-    document.querySelectorAll('.js-replay-intro, #replayIntroBtn').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        replayIntro();
-      });
-    });
 
     // Keyboard shortcut: Escape to skip
     window.addEventListener('keydown', (e) => {
