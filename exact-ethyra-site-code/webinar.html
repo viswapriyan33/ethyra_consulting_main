@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="css/landing-page.css?v=12.0">
   <link rel="stylesheet" href="css/magnetic-button.css">
   <link rel="stylesheet" href="css/faq-accordion.css">
+  <link rel="stylesheet" href="css/auth-modal.css">
 
   <style>
     /* ==========================================================================
@@ -1566,7 +1567,11 @@
           <label class="wb-input-label" for="notifyEmail">Corporate / Professional Email</label>
           <input type="email" id="notifyEmail" class="wb-text-field" placeholder="name@organisation.org" required>
         </div>
-        <button type="submit" class="wb-submit-btn-full">
+        <div class="wb-form-row">
+          <label class="wb-input-label" for="notifyPhone">Phone / WhatsApp Number</label>
+          <input type="tel" id="notifyPhone" class="wb-text-field" placeholder="+91 98765 43210" required>
+        </div>
+        <button type="submit" id="notifySubmitBtn" class="wb-submit-btn-full">
           <span>Confirm Details ↗</span>
         </button>
       </form>
@@ -1786,13 +1791,55 @@
       document.getElementById('suggestTopicModal').classList.remove('is-active');
     }
 
-    function handleSuggestSubmit(e) {
+    async function handleSuggestSubmit(e) {
       e.preventDefault();
-      document.getElementById('suggestTopicForm').style.display = 'none';
-      document.getElementById('suggestSuccessNotice').style.display = 'block';
-      setTimeout(() => {
-        closeSuggestModal();
-      }, 3500);
+      const form = document.getElementById('suggestTopicForm');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'Submit Suggestion ↗';
+
+      const name = document.getElementById('suggestName')?.value.trim();
+      const email = document.getElementById('suggestEmail')?.value.trim();
+      const idea = document.getElementById('suggestIdea')?.value.trim();
+
+      if (!name || !email || !idea) return;
+
+      try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = 'Submitting... ⏳';
+        }
+
+        const supabase = window.getSupabase ? window.getSupabase() : null;
+        if (!supabase) throw new Error("Database client not available.");
+
+        const { error } = await supabase
+          .from('contact_messages')
+          .insert([
+            {
+              name: name,
+              email: email,
+              phone: 'Not provided (Webinar Suggestion)',
+              message: `[Webinar Topic Suggestion / Collaboration]\n${idea}`
+            }
+          ]);
+
+        if (error) throw error;
+
+        form.style.display = 'none';
+        document.getElementById('suggestSuccessNotice').style.display = 'block';
+        setTimeout(() => {
+          closeSuggestModal();
+          form.reset();
+        }, 3500);
+      } catch (err) {
+        console.error("Topic suggestion error:", err);
+        alert("Could not submit suggestion. Please try again later.");
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHTML;
+        }
+      }
     }
 
     function openNotifyModal(context) {
@@ -1808,13 +1855,61 @@
       document.getElementById('notifyModal').classList.remove('is-active');
     }
 
-    function handleNotifySubmit(e) {
+    async function handleNotifySubmit(e) {
       e.preventDefault();
-      document.getElementById('notifyForm').style.display = 'none';
-      document.getElementById('notifySuccessNotice').style.display = 'block';
-      setTimeout(() => {
-        closeNotifyModal();
-      }, 3000);
+      const form = document.getElementById('notifyForm');
+      const submitBtn = document.getElementById('notifySubmitBtn');
+      const originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'Confirm Details ↗';
+
+      const name = document.getElementById('notifyName')?.value.trim();
+      const email = document.getElementById('notifyEmail')?.value.trim();
+      const phone = document.getElementById('notifyPhone')?.value.trim();
+      const topic = document.getElementById('notifyModalTitle')?.innerText || 'Webinar Registration';
+
+      if (!name || !email || !phone) return;
+
+      try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = 'Registering... ⏳';
+        }
+
+        const supabase = window.getSupabase ? window.getSupabase() : null;
+        if (!supabase) throw new Error("Database client not available.");
+
+        const { error } = await supabase
+          .from('webinar_registrations')
+          .insert([
+            {
+              full_name: name,
+              email: email,
+              phone: phone,
+              webinar_topic: topic
+            }
+          ]);
+
+        if (error) throw error;
+
+        form.style.display = 'none';
+        const notice = document.getElementById('notifySuccessNotice');
+        if (notice) {
+          notice.style.display = 'block';
+          notice.innerText = `Registration confirmed for ${name}! Details saved to Ethyra database.`;
+        }
+
+        setTimeout(() => {
+          closeNotifyModal();
+          form.reset();
+        }, 3500);
+      } catch (err) {
+        console.error("Webinar registration error:", err);
+        alert("Registration failed. Please check your network connection or try again.");
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHTML;
+        }
+      }
     }
 
     window.addEventListener('keydown', (e) => {
@@ -1824,5 +1919,9 @@
       }
     });
   </script>
+  <!-- Supabase SDK & Ethyra Integration -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/auth-controller.js"></script>
 </body>
 </html>
