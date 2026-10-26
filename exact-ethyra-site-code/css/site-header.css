@@ -281,9 +281,6 @@
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
 
 .mobile-nav-backdrop.is-open {
   opacity: 1;
