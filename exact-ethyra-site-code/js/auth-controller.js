@@ -287,6 +287,10 @@
   document.addEventListener('DOMContentLoaded', () => {
     ensureAuthModal();
 
+    if (window.initEthyraMobileHeader) {
+      try { window.initEthyraMobileHeader(); } catch (e) {}
+    }
+
     const supabase = window.getSupabase ? window.getSupabase() : null;
     if (supabase) {
       // Check current session

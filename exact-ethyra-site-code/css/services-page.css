@@ -635,10 +635,12 @@ body.svc-header-hidden .site-header {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .services-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    max-width: 440px !important;
+    margin: 0 auto 2rem auto !important;
   }
 }
 
