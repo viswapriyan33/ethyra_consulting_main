@@ -656,7 +656,7 @@
   }
 
   .hero-strategic-interlude {
-    padding: 2.25rem 1.25rem 2.5rem !important;
+    padding: 1.75rem 1.25rem 1.75rem !important;
   }
 
   .interlude-container .hero-tag-badge {
@@ -666,13 +666,15 @@
     text-align: center !important;
     max-width: 95% !important;
     line-height: 1.4 !important;
+    margin-bottom: 0.85rem !important;
   }
 
   .interlude-container .hero-title {
     font-size: clamp(1.45rem, 5.8vw, 2.1rem) !important;
     line-height: 1.22 !important;
     letter-spacing: -0.025em !important;
-    margin-bottom: 1.25rem !important;
+    margin-bottom: 1rem !important;
+    text-align: center !important;
   }
 
   .interlude-container .hero-cta-group {

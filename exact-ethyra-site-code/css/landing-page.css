@@ -1890,33 +1890,68 @@ body {
   }
 
   .services-section {
-    padding: 3.5rem 1.25rem 4rem !important;
+    padding: 2.25rem 1.25rem 2.5rem !important;
+  }
+
+  .services-section .section-head {
+    margin: 0 auto 1.5rem auto !important;
+    text-align: center !important;
+  }
+
+  .services-section .section-title {
+    font-size: clamp(1.75rem, 6vw, 2.2rem) !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+  }
+
+  .services-section .section-subtitle {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
+    margin: 0 auto !important;
   }
 
   .services-grid {
     grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
-    max-width: 440px !important;
+    gap: 1.25rem !important;
+    max-width: 420px !important;
     margin: 0 auto !important;
   }
 
   .service-flip-card,
   .service-flip-inner {
-    min-height: 360px !important;
+    min-height: 340px !important;
   }
 
   .service-face--front,
   .service-face--back {
-    padding: 1.85rem 1.45rem !important;
+    padding: 1.5rem 1.25rem !important;
   }
 
   .why-ethyra-section {
-    padding: 3.5rem 1.25rem 4rem !important;
+    padding: 2.25rem 1.25rem 2.5rem !important;
+  }
+
+  .why-ethyra-section .why-head {
+    margin: 0 auto 1.5rem auto !important;
+    text-align: center !important;
+  }
+
+  .why-title {
+    font-size: clamp(1.75rem, 6vw, 2.2rem) !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+  }
+
+  .why-lead-text {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
   }
 
   .why-principles-grid {
     grid-template-columns: 1fr !important;
-    gap: 1.25rem !important;
+    gap: 1.15rem !important;
   }
 
   .why-systems-grid-bg svg {
@@ -1924,19 +1959,71 @@ body {
     height: 100% !important;
     pointer-events: none !important;
   }
+
+  .methodology-section {
+    padding: 2.25rem 1.25rem 2.5rem !important;
+  }
+
+  .methodology-section .section-head {
+    margin: 0 auto 1.25rem auto !important;
+    text-align: center !important;
+    align-items: center !important;
+  }
+
+  .methodology-section .section-title {
+    font-size: clamp(1.75rem, 6vw, 2.2rem) !important;
+    text-align: center !important;
+  }
+
+  .methodology-motto {
+    text-align: center !important;
+  }
+
+  .methodology-lead-text {
+    text-align: center !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    margin: 0 auto 1.25rem !important;
+  }
+
+  .who-we-work-section {
+    padding: 2.25rem 1.25rem 2.5rem !important;
+  }
+
+  .who-we-work-head {
+    margin: 0 auto 1.5rem auto !important;
+    text-align: center !important;
+  }
+
+  .who-title {
+    font-size: clamp(1.75rem, 6vw, 2.2rem) !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+  }
+
+  .who-lead-text {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
+  }
   
   .cta-banner-box {
-    padding: 3rem 1.75rem;
+    padding: 2.25rem 1.5rem;
+  }
+
+  .site-footer {
+    padding: 2.25rem 1.25rem 1.75rem !important;
   }
   
   .footer-container {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr !important;
+    gap: 1.75rem !important;
+    margin-bottom: 1.75rem !important;
   }
   
   .footer-bottom {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
     text-align: center;
   }
 }
