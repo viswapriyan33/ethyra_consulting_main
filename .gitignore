@@ -1,8 +1,93 @@
-node_modules/
-package-lock.json
+# ==============================================================================
+# Ethyra Consulting Services - Security & Build Git Ignore
+# Protects secrets, credentials, environment configurations, and local artifacts.
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Environment & Sensitive Credentials (NEVER COMMIT)
+# ------------------------------------------------------------------------------
+*.env
+*.env.*
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+env.js
+exact-ethyra-site-code/js/env.js
+config.local.js
+credentials.json
+serviceAccountKey.json
+*.service_role*
+
+# Private Keys & Certificates
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
+# ------------------------------------------------------------------------------
+# 2. Database Dumps & Local Backups
+# ------------------------------------------------------------------------------
+*.sql.gz
+*.dump
+*.sqlite
+*.sqlite3
+*.db
+*.bak
+*.backup
+*.old
+*.orig
+*~
+*.swp
+*.swo
+
+# ------------------------------------------------------------------------------
+# 3. Logs & Process Outputs
+# ------------------------------------------------------------------------------
 *.log
 push-*.txt
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ------------------------------------------------------------------------------
+# 4. Dependency Directories & Package Locks
+# ------------------------------------------------------------------------------
+node_modules/
+package-lock.json
+
+# ------------------------------------------------------------------------------
+# 5. OS Metadata & Temporary Files
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# ------------------------------------------------------------------------------
+# 6. IDEs & Editors
+# ------------------------------------------------------------------------------
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# ------------------------------------------------------------------------------
+# 7. Legacy CMS & Scratch Folders
+# ------------------------------------------------------------------------------
 wp-content/
 scratch/
-
-

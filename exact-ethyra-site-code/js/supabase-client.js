@@ -3,8 +3,9 @@
  * Initialises and exports the global Supabase client instance with hardened storage.
  */
 
-const SUPABASE_URL = "https://lshpfmperwmdcwavlgfx.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzaHBmbXBlcndtZGN3YXZsZ2Z4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4ODUwMzUsImV4cCI6MjEwODQ2MTAzNX0.kO_xIDmHEGAxk0eQ07NUYtNsrRt2msBVBb3fzzL_3Mw";
+// Allow overriding via window.ETHYRA_CONFIG if present (e.g., from a local uncommitted env.js)
+const SUPABASE_URL = (window.ETHYRA_CONFIG && window.ETHYRA_CONFIG.SUPABASE_URL) || "https://lshpfmperwmdcwavlgfx.supabase.co";
+const SUPABASE_ANON_KEY = (window.ETHYRA_CONFIG && window.ETHYRA_CONFIG.SUPABASE_ANON_KEY) || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzaHBmbXBlcndtZGN3YXZsZ2Z4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4ODUwMzUsImV4cCI6MjEwODQ2MTAzNX0.kO_xIDmHEGAxk0eQ07NUYtNsrRt2msBVBb3fzzL_3Mw";
 
 const STORAGE_KEY = "sb-ethyra-auth-token";
 let _supabaseInstance = null;

@@ -1,0 +1,41 @@
+name: Security & Integrity Audit
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  audit:
+    name: Security & Code Integrity Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Secret Scan (Ensure no private keys or service_role in code)
+        run: |
+          echo "Scanning for accidental private keys or service_role tokens..."
+          if grep -rn "service_role" exact-ethyra-site-code/ ; then
+            echo "::error::Found service_role reference in client code! Build failed for security."
+            exit 1
+          fi
+          if grep -rn "BEGIN PRIVATE KEY" . --exclude-dir=.git ; then
+            echo "::error::Found private key in repository! Build failed for security."
+            exit 1
+          fi
+          echo "No dangerous secrets found."
+
+      - name: Validate JavaScript Syntax
+        run: |
+          node -c exact-ethyra-site-code/js/supabase-client.js
+          node -c exact-ethyra-site-code/js/auth-controller.js
+          node -c exact-ethyra-site-code/js/site-header.js
+          echo "JavaScript syntax checks passed cleanly."
