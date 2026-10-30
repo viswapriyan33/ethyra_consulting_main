@@ -1862,12 +1862,17 @@
       const submitBtn = document.getElementById('notifySubmitBtn');
       const originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'Confirm Details ↗';
 
-      const name = document.getElementById('notifyName')?.value.trim();
-      const email = document.getElementById('notifyEmail')?.value.trim();
-      const phone = document.getElementById('notifyPhone')?.value.trim();
+      const name = (document.getElementById('notifyName')?.value.trim() || '').substring(0, 150);
+      const email = (document.getElementById('notifyEmail')?.value.trim() || '').substring(0, 250);
+      const phone = (document.getElementById('notifyPhone')?.value.trim() || '').substring(0, 50);
       const topic = document.getElementById('notifyModalTitle')?.innerText || 'Webinar Registration';
 
       if (!name || !email || !phone) return;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
 
       try {
         if (submitBtn) {

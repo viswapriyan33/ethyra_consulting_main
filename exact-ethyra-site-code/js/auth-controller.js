@@ -96,6 +96,17 @@
     if (alertEl) alertEl.style.display = 'none';
   }
 
+  // HTML Escaper for XSS Defense
+  function escapeHTML(str) {
+    if (!str || typeof str !== 'string') return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   // Update Navbar button state (Logged In vs Logged Out)
   function updateNavUI(user) {
     const navContainers = document.querySelectorAll('.header-actions');
@@ -109,9 +120,10 @@
       }
 
       if (user) {
-        const initials = (user.email || 'U').charAt(0).toUpperCase();
+        const safeEmail = escapeHTML(user.email || 'Member');
+        const initials = escapeHTML((user.email || 'U').charAt(0).toUpperCase());
         authBtn.innerHTML = `
-          <button type="button" class="auth-user-badge" onclick="window.ethyraAuth.openModal()" title="View Account (${user.email})">
+          <button type="button" class="auth-user-badge" onclick="window.ethyraAuth.openModal()" title="View Account (${safeEmail})">
             <span class="auth-avatar-circle">${initials}</span>
             <span>Account</span>
           </button>
@@ -208,6 +220,11 @@
       const password = document.getElementById('signInPassword').value;
       const submitBtn = document.getElementById('signInSubmitBtn');
 
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return showAlert("Please enter a valid official email address.");
+      }
+
       try {
         submitBtn.disabled = true;
         submitBtn.innerText = "Signing in...";
@@ -241,6 +258,14 @@
       const password = document.getElementById('signUpPassword').value;
       const submitBtn = document.getElementById('signUpSubmitBtn');
 
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return showAlert("Please enter a valid official email address.");
+      }
+      if (!password || password.length < 8) {
+        return showAlert("Password must be at least 8 characters long for security.");
+      }
+
       try {
         submitBtn.disabled = true;
         submitBtn.innerText = "Creating account...";
@@ -254,7 +279,7 @@
         });
         if (error) throw error;
 
-        showAlert("Account created successfully!", "success");
+        showAlert("Account created successfully! Check your email to confirm.", "success");
         updateNavUI(data.user);
         syncModalUI(data.user);
 
@@ -272,11 +297,44 @@
     handleSignOut: async function () {
       const supabase = window.getSupabase ? window.getSupabase() : null;
       if (supabase) {
-        await supabase.auth.signOut();
+        try {
+          await supabase.auth.signOut();
+        } catch (err) {
+          console.warn("Supabase auth sign-out:", err);
+        }
       }
+
+      // Hardened Session Purge: Clear localStorage, sessionStorage, and auth cookies
+      try {
+        const localKeys = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && (k.startsWith('sb-') || k.includes('supabase') || k.includes('ethyra'))) {
+            localKeys.push(k);
+          }
+        }
+        localKeys.forEach(k => localStorage.removeItem(k));
+
+        const sessionKeys = [];
+        for (let i = 0; i < sessionStorage.length; i++) {
+          const k = sessionStorage.key(i);
+          if (k && (k.startsWith('sb-') || k.includes('supabase') || k.includes('ethyra'))) {
+            sessionKeys.push(k);
+          }
+        }
+        sessionKeys.forEach(k => sessionStorage.removeItem(k));
+
+        // Purge session cookies
+        document.cookie.split(";").forEach(c => {
+          document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date(0).toUTCString() + ";path=/;SameSite=Strict;Secure");
+        });
+      } catch (e) {
+        console.error("Session purge exception:", e);
+      }
+
       updateNavUI(null);
       syncModalUI(null);
-      showAlert("You have signed out successfully.", "success");
+      showAlert("You have signed out securely.", "success");
       setTimeout(() => {
         window.ethyraAuth.closeModal();
       }, 1000);

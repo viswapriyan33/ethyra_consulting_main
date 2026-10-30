@@ -899,12 +899,19 @@ document.addEventListener('DOMContentLoaded', function() {
           submitBtn.innerHTML = 'Sending Enquiry... <span class="loading-spin">⏳</span>';
         }
 
-        const fullName = document.getElementById('contact-fullname')?.value.trim() || '';
-        const email = document.getElementById('contact-email')?.value.trim() || '';
-        const phone = document.getElementById('contact-phone')?.value.trim() || '';
-        const org = document.getElementById('contact-org')?.value.trim() || '';
-        const role = document.getElementById('contact-role')?.value.trim() || '';
-        const challenge = document.getElementById('contact-challenge')?.value.trim() || '';
+        const fullName = (document.getElementById('contact-fullname')?.value.trim() || '').substring(0, 150);
+        const email = (document.getElementById('contact-email')?.value.trim() || '').substring(0, 250);
+        const phone = (document.getElementById('contact-phone')?.value.trim() || '').substring(0, 50);
+        const org = (document.getElementById('contact-org')?.value.trim() || '').substring(0, 200);
+        const role = (document.getElementById('contact-role')?.value.trim() || '').substring(0, 150);
+        const challenge = (document.getElementById('contact-challenge')?.value.trim() || '').substring(0, 5000);
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert('Please enter a valid official email address.');
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalBtnHTML; }
+          return;
+        }
 
         const selectedServices = Array.from(document.querySelectorAll('input[name="support_service"]:checked'))
           .map(cb => cb.value);

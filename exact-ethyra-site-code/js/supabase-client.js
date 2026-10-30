@@ -1,11 +1,12 @@
 /**
- * Ethyra Consulting Services - Supabase Client Configuration
- * Initialises and exports the global Supabase client instance.
+ * Ethyra Consulting Services - Supabase Client Configuration & Security Gateway
+ * Initialises and exports the global Supabase client instance with hardened storage.
  */
 
 const SUPABASE_URL = "https://lshpfmperwmdcwavlgfx.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzaHBmbXBlcndtZGN3YXZsZ2Z4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4ODUwMzUsImV4cCI6MjEwODQ2MTAzNX0.kO_xIDmHEGAxk0eQ07NUYtNsrRt2msBVBb3fzzL_3Mw";
 
+const STORAGE_KEY = "sb-ethyra-auth-token";
 let _supabaseInstance = null;
 
 function getSupabase() {
@@ -15,7 +16,10 @@ function getSupabase() {
         auth: {
           persistSession: true,
           autoRefreshToken: true,
-          detectSessionInUrl: true
+          detectSessionInUrl: true,
+          storage: window.localStorage,
+          storageKey: STORAGE_KEY,
+          flowType: 'pkce' // PKCE flow for enhanced browser auth security
         }
       });
     } else {
@@ -27,5 +31,5 @@ function getSupabase() {
 
 // Attach to window for global access across all pages
 window.getSupabase = getSupabase;
-window.SUPABASE_URL = SUPABASE_URL;
-window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
+window.ETHYRA_STORAGE_KEY = STORAGE_KEY;
+Object.freeze(window.getSupabase);
